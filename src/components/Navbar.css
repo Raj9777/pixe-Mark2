@@ -12,12 +12,13 @@
   padding: 10px 20px 10px 28px;
   z-index: 999;
   border-radius: 100px;
-  background: rgba(10, 16, 26, 0.78);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15),
-              inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  background: rgba(6, 10, 18, 0.92);
+  backdrop-filter: blur(32px) saturate(180%);
+  -webkit-backdrop-filter: blur(32px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-top-color: rgba(255, 255, 255, 0.16);
+  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.5),
+              inset 0 1px 0 rgba(255, 255, 255, 0.10);
   transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1),
               max-width 0.35s cubic-bezier(0.16, 1, 0.3, 1),
               padding 0.35s cubic-bezier(0.16, 1, 0.3, 1),
@@ -30,13 +31,13 @@
 .navbar.scrolled {
   width: 84%;
   max-width: 1020px;
-  padding: 6px 24px 6px 32px; /* Slight increase in side padding to squeeze elements in further */
+  padding: 6px 24px 6px 32px;
   top: 12px;
-  background: rgba(8, 12, 20, 0.93);
-  backdrop-filter: blur(28px);
-  -webkit-backdrop-filter: blur(28px);
-  border-color: rgba(255, 255, 255, 0.12);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45),
+  background: rgba(5, 8, 15, 0.97);
+  backdrop-filter: blur(36px) saturate(200%);
+  -webkit-backdrop-filter: blur(36px) saturate(200%);
+  border-color: rgba(255, 255, 255, 0.14);
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.65),
               inset 0 1px 0 rgba(255, 255, 255, 0.15),
               inset 0 0 12px rgba(255, 255, 255, 0.02);
 }
@@ -116,7 +117,7 @@
 .hamburger.open span:nth-child(2) { opacity: 0; }
 .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-/* Mobile drawer */
+/* Mobile drawer — near-opaque for readability */
 .mobile-drawer {
   position: absolute;
   top: calc(100% + 12px);
@@ -128,6 +129,16 @@
   flex-direction: column;
   gap: 16px;
   animation: slideDown 0.2s ease;
+  /* Override .glass with a much darker, near-opaque background */
+  background: rgba(5, 8, 16, 0.97) !important;
+  backdrop-filter: blur(40px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(40px) saturate(180%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-top-color: rgba(255, 255, 255, 0.18) !important;
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.7),
+    0 4px 16px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.10) !important;
 }
 .mobile-drawer a {
   font-size: 1rem;
