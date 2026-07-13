@@ -48,51 +48,24 @@ export async function sendBookingEmail({ name, email, phone, service, message, d
       })
     : date;
 
-  // ── 1. Owner notification ─────────────────────────────────
-  const ownerNotification = emailjs.send(SERVICE_ID, T_BOOKING, {
-    to_email:     OWNER_EMAIL,
-    from_name:    name,
-    from_email:   email,
-    from_phone:   phone || 'Not provided',
-    service,
-    message:      message || 'No message provided',
-    booking_date: formattedDate,
-    booking_time: time,
-    submitted_at: submittedAt,
-  });
-
-  // ── 2. Customer confirmation ──────────────────────────────
-  // Only send if the confirmation template ID is configured
-  const customerConfirmation = T_CONFIRMATION && T_CONFIRMATION !== 'template_yyyyyyy'
-    ? emailjs.send(SERVICE_ID, T_CONFIRMATION, {
-        to_name:      name.split(' ')[0],  // First name only
-        to_email:     email,               // ← goes to the customer
-        from_email:   OWNER_EMAIL,
-        from_phone:   phone || '',
-        service,
-        booking_date: formattedDate,
-        booking_time: time,
-        submitted_at: submittedAt,
-      })
-    : Promise.resolve(); // Silently skip if not configured yet
-
-  // Fire both at the same time — don't wait for one before starting the other
-  const results = await Promise.allSettled([ownerNotification, customerConfirmation]);
-
-  // Log any failures (won't throw — UI still shows success)
-  results.forEach((result, i) => {
-    if (result.status === 'rejected') {
-      const label = i === 0 ? 'Owner notification' : 'Customer confirmation';
-      console.error(`EmailJS — ${label} failed:`, result.reason);
-    }
-  });
-
-  // Only throw if BOTH failed (owner notification is the critical one)
-  if (results[0].status === 'rejected') {
-    throw results[0].reason;
+  // ── Owner notification ─────────────────────────────────
+  try {
+    const result = await emailjs.send(SERVICE_ID, T_BOOKING, {
+      to_email:     OWNER_EMAIL,
+      from_name:    name,
+      from_email:   email,
+      from_phone:   phone || 'Not provided',
+      service,
+      message:      message || 'No message provided',
+      booking_date: formattedDate,
+      booking_time: time,
+      submitted_at: submittedAt,
+    });
+    return result;
+  } catch (error) {
+    console.error('EmailJS — Owner notification failed:', error);
+    throw error;
   }
-
-  return results;
 }
 
 /* ─────────────────────────────────────────────────────────────
