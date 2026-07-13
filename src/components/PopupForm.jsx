@@ -279,7 +279,8 @@ export default function PopupForm() {
                 <div className="success-burst">🚀</div>
                 <h2>You're booked!</h2>
                 <p>
-                  I'll send a confirmation to <strong>{form.email}</strong> within the hour.
+                  A confirmation has been sent to{' '}
+                  <strong>{form.email}</strong>.<br />
                   Talk soon, {form.name.split(' ')[0]}!
                 </p>
                 <div className="success-details glass">
@@ -295,6 +296,10 @@ export default function PopupForm() {
                   <div className="summary-row">
                     <span className="summary-icon">🔧</span>
                     <span>{service}</span>
+                  </div>
+                  <div className="summary-row">
+                    <span className="summary-icon">✉️</span>
+                    <span>Confirmation sent to {form.email}</span>
                   </div>
                 </div>
                 <button className="btn btn-primary" onClick={handleClose}>
