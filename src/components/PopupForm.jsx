@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import './PopupForm.css';
 import { sendBookingEmail } from '../services/emailService';
+import { saveBookingSub } from '../services/dbService';
 
 const SERVICES = ['Custom Software', 'Website', 'Mobile App', 'UI/UX Design', 'API / Backend', 'Other'];
 const TIMES = ['9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM', '6:00 PM'];
@@ -44,19 +45,33 @@ export default function PopupForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSending(true);
+
+    const submissionPayload = {
+      name:    form.name,
+      email:   form.email,
+      phone:   form.phone,
+      service,
+      message: form.message,
+      date:    form.date,
+      time,
+    };
+
     try {
-      await sendBookingEmail({
-        name:    form.name,
-        email:   form.email,
-        phone:   form.phone,
-        service,
-        message: form.message,
-        date:    form.date,
-        time,
-      });
+      // Fire both database insertion and email trigger concurrently
+      const results = await Promise.allSettled([
+        sendBookingEmail(submissionPayload),
+        saveBookingSub(submissionPayload)
+      ]);
+
+      // Log errors if any of the operations failed
+      if (results[0].status === 'rejected') {
+        console.error('EmailJS notification failed:', results[0].reason);
+      }
+      if (results[1].status === 'rejected') {
+        console.error('Database logging failed:', results[1].reason);
+      }
     } catch (err) {
-      console.error('EmailJS error (booking):', err);
-      // Still advance to success — email failure shouldn't block the user
+      console.error('Booking submission error:', err);
     } finally {
       setSending(false);
       setStep(3);

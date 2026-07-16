@@ -49,6 +49,7 @@ function FAQ({ q, a }) {
 }
 
 import { sendContactEmail } from '../services/emailService';
+import { saveContactSub } from '../services/dbService';
 
 export default function ContactPage() {
   const [interest, setInterest] = useState('Website');
@@ -69,17 +70,32 @@ export default function ContactPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSending(true);
+
+    const message = `Company: ${formData.company || 'N/A'}\nPhone/WhatsApp: ${formData.phone || 'N/A'}\nReference URLs: ${formData.ref || 'N/A'}\n\nProject Brief:\n${formData.brief}`;
+    const submissionPayload = {
+      name: formData.name,
+      email: formData.email,
+      interest,
+      budget,
+      message
+    };
+
     try {
-      const message = `Company: ${formData.company || 'N/A'}\nPhone/WhatsApp: ${formData.phone || 'N/A'}\nReference URLs: ${formData.ref || 'N/A'}\n\nProject Brief:\n${formData.brief}`;
-      await sendContactEmail({
-        name: formData.name,
-        email: formData.email,
-        interest,
-        budget,
-        message
-      });
+      // Fire both database insertion and email trigger concurrently
+      const results = await Promise.allSettled([
+        sendContactEmail(submissionPayload),
+        saveContactSub(submissionPayload)
+      ]);
+
+      // Log errors if any of the operations failed
+      if (results[0].status === 'rejected') {
+        console.error('EmailJS notification failed:', results[0].reason);
+      }
+      if (results[1].status === 'rejected') {
+        console.error('Database logging failed:', results[1].reason);
+      }
     } catch (err) {
-      console.error('EmailJS error (contact page):', err);
+      console.error('Contact submission error:', err);
     } finally {
       setSending(false);
       setSubmitted(true);
