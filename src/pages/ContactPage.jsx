@@ -111,8 +111,15 @@ export default function ContactPage() {
             <div className="contact-detail-item">
               <div className="contact-detail-icon">✉️</div>
               <div className="contact-detail-info">
-                <strong>hello@pixe.dev</strong>
+                <strong><a href="mailto:raj@pixelexcellence.online" style={{ color: 'inherit', textDecoration: 'none' }}>raj@pixelexcellence.online</a></strong>
                 <span>Reply within 24 hours</span>
+              </div>
+            </div>
+            <div className="contact-detail-item">
+              <div className="contact-detail-icon">📞</div>
+              <div className="contact-detail-info">
+                <strong><a href="tel:+917381763856" style={{ color: 'inherit', textDecoration: 'none' }}>+91 7381763856</a></strong>
+                <span>Direct Call / WhatsApp</span>
               </div>
             </div>
             <div className="contact-detail-item">

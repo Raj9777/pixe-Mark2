@@ -40,7 +40,14 @@ export default function Contact() {
               <div className="contact-detail-icon">✉️</div>
               <div className="contact-detail-info">
                 <strong>Direct Communication</strong>
-                <span>hello@aetherdev.co</span>
+                <span><a href="mailto:raj@pixelexcellence.online" style={{ color: 'inherit', textDecoration: 'none' }}>raj@pixelexcellence.online</a></span>
+              </div>
+            </div>
+            <div className="contact-detail-item">
+              <div className="contact-detail-icon">📞</div>
+              <div className="contact-detail-info">
+                <strong>Direct Call / WhatsApp</strong>
+                <span><a href="tel:+917381763856" style={{ color: 'inherit', textDecoration: 'none' }}>+91 7381763856</a></span>
               </div>
             </div>
             <div className="contact-detail-item">

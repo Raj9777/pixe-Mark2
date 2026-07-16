@@ -3,10 +3,10 @@
  * Central EmailJS helper — all form submissions go through here.
  *
  * On every booking TWO emails fire simultaneously via Promise.all():
- *   1. Owner notification  → ratanraj9777@gmail.com
+ *   1. Owner notification  → raj@pixelexcellence.online
  *   2. Customer confirmation → the person who booked
  *
- * On contact form → one email notification to ratanraj9777@gmail.com
+ * On contact form → one email notification to raj@pixelexcellence.online
  */
 import emailjs from '@emailjs/browser';
 
@@ -16,7 +16,7 @@ const T_BOOKING          = import.meta.env.VITE_EMAILJS_TEMPLATE_BOOKING;
 const T_CONFIRMATION     = import.meta.env.VITE_EMAILJS_TEMPLATE_CONFIRMATION;
 const T_CONTACT          = import.meta.env.VITE_EMAILJS_TEMPLATE_CONTACT;
 
-const OWNER_EMAIL        = 'ratanraj9777@gmail.com';
+const OWNER_EMAIL        = 'raj@pixelexcellence.online';
 
 // Initialise EmailJS once
 emailjs.init({ publicKey: PUBLIC_KEY });

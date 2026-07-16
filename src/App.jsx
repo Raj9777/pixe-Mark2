@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import './index.css';
 import Loader from './components/Loader';
 import PopupForm from './components/PopupForm';
+import CallPopup from './components/CallPopup';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -42,6 +43,7 @@ function AppContent() {
       </main>
       <Footer />
       <PopupForm />
+      <CallPopup />
     </>
   );
 }

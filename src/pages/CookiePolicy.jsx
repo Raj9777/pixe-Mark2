@@ -156,7 +156,7 @@ export default function CookiePolicy() {
             <div>
               <h4>PIXE — Cookie Inquiry</h4>
               <p>
-                Email: <a href="mailto:hello@pixe.dev">hello@pixe.dev</a><br />
+                Email: <a href="mailto:raj@pixelexcellence.online">raj@pixelexcellence.online</a><br />
                 We will respond to cookie inquiries within <strong>30 days</strong>.
               </p>
             </div>
