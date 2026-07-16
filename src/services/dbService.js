@@ -1,81 +1,72 @@
-import { supabase } from './supabaseClient';
+const webhookUrl = import.meta.env.VITE_GOOGLE_SHEETS_WEBHOOK_URL || '';
+
+// Handle missing/placeholder webhook URL gracefully
+const isConfigured = 
+  webhookUrl && 
+  webhookUrl.startsWith('http') && 
+  !webhookUrl.includes('your_google_sheets_apps_script_url');
 
 /**
- * Saves a new booking request to the Supabase database.
+ * Sends a form submission payload to the Google Sheets Apps Script Webhook.
+ * Uses a text/plain Content-Type to prevent CORS preflight OPTIONS requests,
+ * ensuring robust submission directly from the browser.
  * 
- * @param {Object} bookingData
- * @param {string} bookingData.name
- * @param {string} bookingData.email
- * @param {string} bookingData.phone
- * @param {string} bookingData.service
- * @param {string} bookingData.message
- * @param {string} bookingData.date
- * @param {string} bookingData.time
+ * @param {Object} payload 
  */
-export async function saveBookingSub({ name, email, phone, service, message, date, time }) {
-  if (!supabase) {
-    console.warn('Supabase is not initialized. Skipping DB insert.');
+async function sendToSheet(payload) {
+  if (!isConfigured) {
+    console.warn(
+      'Google Sheets Webhook — client is not configured yet. Form submission skipped. ' +
+      'Please set VITE_GOOGLE_SHEETS_WEBHOOK_URL in your .env file.'
+    );
     return null;
   }
 
   try {
-    const { data, error } = await supabase
-      .from('bookings')
-      .insert([
-        {
-          name,
-          email,
-          phone: phone || null,
-          service,
-          message: message || null,
-          booking_date: date || null,
-          booking_time: time || null,
-        },
-      ])
-      .select();
-
-    if (error) throw error;
-    return data;
+    const response = await fetch(webhookUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'text/plain;charset=utf-8',
+      },
+      body: JSON.stringify(payload),
+    });
+    return response;
   } catch (error) {
-    console.error('Supabase — Error inserting booking:', error);
+    console.error('Google Sheets Webhook — Error sending submission:', error);
     throw error;
   }
 }
 
 /**
- * Saves a contact form submission to the Supabase database.
+ * Saves a new booking request to the Google Spreadsheet.
+ * 
+ * @param {Object} bookingData
+ */
+export async function saveBookingSub({ name, email, phone, service, message, date, time }) {
+  return sendToSheet({
+    type: 'Booking',
+    name,
+    email,
+    phone,
+    service,
+    message,
+    date,
+    time
+  });
+}
+
+/**
+ * Saves a contact form submission to the Google Spreadsheet.
  * 
  * @param {Object} contactData
- * @param {string} contactData.name
- * @param {string} contactData.email
- * @param {string} contactData.interest
- * @param {string} contactData.budget
- * @param {string} contactData.message
  */
 export async function saveContactSub({ name, email, interest, budget, message }) {
-  if (!supabase) {
-    console.warn('Supabase is not initialized. Skipping DB insert.');
-    return null;
-  }
-
-  try {
-    const { data, error } = await supabase
-      .from('contacts')
-      .insert([
-        {
-          name,
-          email,
-          interest: interest || null,
-          budget: budget || null,
-          message: message || null,
-        },
-      ])
-      .select();
-
-    if (error) throw error;
-    return data;
-  } catch (error) {
-    console.error('Supabase — Error inserting contact:', error);
-    throw error;
-  }
+  return sendToSheet({
+    type: 'Contact',
+    name,
+    email,
+    interest,
+    budget,
+    message
+  });
 }
