@@ -41,21 +41,23 @@ export default function Navbar() {
         ))}
       </ul>
 
-      {/* Theme toggle */}
-      <button
-        className="theme-toggle"
-        onClick={toggleTheme}
-        aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-        title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-      >
-        <span className={`theme-toggle-icon ${theme === 'dark' ? 'is-dark' : 'is-light'}`}>
-          {theme === 'dark' ? '☀️' : '🌙'}
-        </span>
-      </button>
+      {/* Right controls: Theme toggle & CTA */}
+      <div className="navbar-right">
+        <button
+          className="theme-toggle"
+          onClick={toggleTheme}
+          aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+          title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+        >
+          <span className={`theme-toggle-icon ${theme === 'dark' ? 'is-dark' : 'is-light'}`}>
+            {theme === 'dark' ? '☀️' : '🌙'}
+          </span>
+        </button>
 
-      <NavLink to="/contact" className="btn btn-primary navbar-cta">
-        Start a Project
-      </NavLink>
+        <NavLink to="/contact" className="btn btn-primary navbar-cta">
+          Start a Project
+        </NavLink>
+      </div>
 
       {/* Mobile hamburger */}
       <button

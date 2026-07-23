@@ -54,7 +54,7 @@
 }
 .footer-col a {
   font-size: 0.9rem;
-  color: rgba(240,244,248,0.55);
+  color: var(--text-muted);
   transition: color 0.2s;
 }
 .footer-col a:hover { color: var(--text-main); }
@@ -63,7 +63,7 @@
   justify-content: space-between;
   align-items: center;
   font-size: 0.82rem;
-  color: rgba(255,255,255,0.2);
+  color: var(--text-muted);
   border-top: 1px solid var(--glass-border);
   padding-top: 24px;
   flex-wrap: wrap;
