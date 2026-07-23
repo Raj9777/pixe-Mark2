@@ -118,6 +118,10 @@
 }
 
 /* Navbar Light Theme Styles */
+[data-theme="light"] .logo-img {
+  filter: brightness(0);
+}
+
 [data-theme="light"] .navbar {
   background: rgba(255, 255, 255, 0.92);
   border: 1px solid rgba(0, 0, 0, 0.08);

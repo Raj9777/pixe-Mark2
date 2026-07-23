@@ -50,7 +50,7 @@
   height: 20px;
   width: auto;
   display: block;
-  transition: height 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: height 0.3s cubic-bezier(0.16, 1, 0.3, 1), filter 0.3s ease;
 }
 .navbar.scrolled .logo-img {
   height: 16px;
