@@ -127,7 +127,7 @@ export default function ContactPage() {
             <div className="contact-detail-item">
               <div className="contact-detail-icon">✉️</div>
               <div className="contact-detail-info">
-                <strong><a href="mailto:raj@pixelexcellence.online" style={{ color: 'inherit', textDecoration: 'none' }}>raj@pixelexcellence.online</a></strong>
+                <strong><a href="mailto:raj@pixe.in" style={{ color: 'inherit', textDecoration: 'none' }}>raj@pixe.in</a></strong>
                 <span>Reply within 24 hours</span>
               </div>
             </div>

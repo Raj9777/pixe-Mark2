@@ -99,8 +99,8 @@ export default function CallPopup() {
                   </div>
                   <h3>Send Email</h3>
                   <p>Drop an email for formal requests, support, proposals, and details.</p>
-                  <a href="mailto:raj@pixelexcellence.online" className="btn btn-secondary call-option-btn">
-                    raj@pixelexcellence.online
+                  <a href="mailto:raj@pixe.in" className="btn btn-secondary call-option-btn">
+                    raj@pixe.in
                   </a>
                 </div>
               </div>

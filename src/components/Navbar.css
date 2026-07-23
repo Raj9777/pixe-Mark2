@@ -156,7 +156,7 @@
 }
 
 @media (max-width: 820px) {
-  .navbar-links, .navbar-cta { display: none; }
+  .navbar-links, .navbar-cta, .theme-toggle { display: none; }
   .hamburger { display: flex; }
   .navbar { border-radius: 20px; top: 16px; }
   .navbar.scrolled {
@@ -165,3 +165,82 @@
     top: 10px;
   }
 }
+
+/* Theme toggle — Desktop */
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid var(--glass-border);
+  background: var(--bg-card);
+  cursor: pointer;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.3s ease,
+              background 0.3s ease,
+              box-shadow 0.3s ease;
+  flex-shrink: 0;
+}
+
+.theme-toggle:hover {
+  transform: scale(1.1);
+  border-color: var(--glass-border-bright);
+  box-shadow: 0 0 16px rgba(0, 240, 255, 0.15);
+}
+
+.theme-toggle:active {
+  transform: scale(0.95);
+}
+
+.theme-toggle-icon {
+  font-size: 1.1rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.theme-toggle-icon.is-dark {
+  animation: sunSpin 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.theme-toggle-icon.is-light {
+  animation: moonPop 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes sunSpin {
+  0%   { transform: rotate(-90deg) scale(0.5); opacity: 0; }
+  100% { transform: rotate(0deg) scale(1); opacity: 1; }
+}
+
+@keyframes moonPop {
+  0%   { transform: rotate(90deg) scale(0.5); opacity: 0; }
+  100% { transform: rotate(0deg) scale(1); opacity: 1; }
+}
+
+/* Theme toggle — Mobile */
+.theme-toggle-mobile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: none;
+  border: 1px solid var(--glass-border);
+  color: var(--text-muted);
+  padding: 10px 0;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  transition: color 0.2s, background 0.2s;
+}
+
+.theme-toggle-mobile:hover {
+  color: var(--text-main);
+  background: var(--bg-card);
+}
+

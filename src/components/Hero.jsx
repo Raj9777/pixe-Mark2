@@ -47,20 +47,20 @@ export default function Hero() {
           transition: 'none'
         }}
       >
-        <div className="hero-badge glass">Solo Agency · PIXE</div>
+        <div className="hero-badge glass hero-anim" style={{ animationDelay: '0.1s' }}>Solo Agency · PIXE</div>
 
-        <h1>
+        <h1 className="hero-anim" style={{ animationDelay: '0.25s' }}>
           Built faster. <br />
           <span className="text-gradient">Priced fairly.</span>
         </h1>
 
-        <p className="hero-sub">
+        <p className="hero-sub hero-anim" style={{ animationDelay: '0.4s' }}>
           PIXE crafts custom software and high-performance websites with delivery
           that's 3× faster than the market — without the agency price tag.
         </p>
 
 
-        <div className="pricing-pill glass">
+        <div className="pricing-pill glass hero-anim" style={{ animationDelay: '0.55s' }}>
           <span className="pricing-pill-label">Starting from</span>
           <div className="pricing-pill-divider" />
           <div className="pricing-pill-value">
@@ -76,7 +76,7 @@ export default function Hero() {
           </span>
         </div>
 
-        <div className="hero-actions">
+        <div className="hero-actions hero-anim" style={{ animationDelay: '0.7s' }}>
           <a href="#portfolio" className="btn btn-secondary">View My Work</a>
           <a href="#contact" className="btn btn-primary">
             Let's craft the future &rarr;

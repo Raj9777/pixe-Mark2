@@ -58,7 +58,7 @@ export default function PrivacyPolicy() {
           </p>
           <div className="legal-highlight">
             <strong>Data Controller:</strong> PIXE (Solo Agency)<br />
-            <strong>Email:</strong> <a href="mailto:raj@pixelexcellence.online">raj@pixelexcellence.online</a><br />
+            <strong>Email:</strong> <a href="mailto:raj@pixe.in">raj@pixe.in</a><br />
             <strong>Jurisdiction:</strong> India (with global clientele)
           </div>
         </div>
@@ -191,7 +191,7 @@ export default function PrivacyPolicy() {
             <li>Right to withdraw consent for data collection and processing.</li>
           </ul>
           <div className="legal-highlight">
-            To exercise any of these rights, contact us at <a href="mailto:raj@pixelexcellence.online">raj@pixelexcellence.online</a>.
+            To exercise any of these rights, contact us at <a href="mailto:raj@pixe.in">raj@pixe.in</a>.
             We will respond within <strong>30 days</strong>.
           </div>
         </div>
@@ -234,7 +234,7 @@ export default function PrivacyPolicy() {
           <p>
             PIXE's services are not directed to individuals under the age of 18. We do not knowingly
             collect personal data from children. If you believe we have inadvertently collected data
-            from a minor, please contact us immediately at <a href="mailto:raj@pixelexcellence.online">raj@pixelexcellence.online</a> and
+            from a minor, please contact us immediately at <a href="mailto:raj@pixe.in">raj@pixe.in</a> and
             we will delete it promptly.
           </p>
         </div>
@@ -263,7 +263,7 @@ export default function PrivacyPolicy() {
             <div>
               <h4>PIXE — Data Privacy</h4>
               <p>
-                Email: <a href="mailto:raj@pixelexcellence.online">raj@pixelexcellence.online</a><br />
+                Email: <a href="mailto:raj@pixe.in">raj@pixe.in</a><br />
                 Response time: Within 30 days of receipt<br />
                 You also have the right to lodge a complaint with your local supervisory authority
                 (e.g., the <strong>Information Commissioner's Office (ICO)</strong> in the UK,

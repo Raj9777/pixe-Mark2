@@ -40,7 +40,7 @@ export default function Contact() {
               <div className="contact-detail-icon">✉️</div>
               <div className="contact-detail-info">
                 <strong>Direct Communication</strong>
-                <span><a href="mailto:raj@pixelexcellence.online" style={{ color: 'inherit', textDecoration: 'none' }}>raj@pixelexcellence.online</a></span>
+                <span><a href="mailto:raj@pixe.in" style={{ color: 'inherit', textDecoration: 'none' }}>raj@pixe.in</a></span>
               </div>
             </div>
             <div className="contact-detail-item">

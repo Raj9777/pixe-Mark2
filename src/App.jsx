@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, createContext, useContext } from 'react';
 import './index.css';
 import Loader from './components/Loader';
 import PopupForm from './components/PopupForm';
@@ -14,6 +14,44 @@ import ContactPage from './pages/ContactPage';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfService from './pages/TermsOfService';
 import CookiePolicy from './pages/CookiePolicy';
+
+/* ── Theme Context ─────────────────────────── */
+export const ThemeContext = createContext({
+  theme: 'dark',
+  toggleTheme: () => {},
+});
+
+export function useTheme() {
+  return useContext(ThemeContext);
+}
+
+function ThemeProvider({ children }) {
+  const [theme, setTheme] = useState(() => {
+    try {
+      return localStorage.getItem('pixe-theme') || 'dark';
+    } catch {
+      return 'dark';
+    }
+  });
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    document.body.style.backgroundColor = theme === 'light' ? '#f7f7f5' : '#05070a';
+    try {
+      localStorage.setItem('pixe-theme', theme);
+    } catch {
+      // localStorage unavailable
+    }
+  }, [theme]);
+
+  const toggleTheme = () => setTheme(t => (t === 'dark' ? 'light' : 'dark'));
+
+  return (
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+      {children}
+    </ThemeContext.Provider>
+  );
+}
 
 // Scroll to top on route change
 function ScrollToTop() {
@@ -52,10 +90,12 @@ export default function App() {
   const [loading, setLoading] = useState(true);
 
   return (
-    <BrowserRouter>
-      {loading && <Loader onDone={() => setLoading(false)} />}
-      {!loading && <AppContent />}
-    </BrowserRouter>
+    <ThemeProvider>
+      <BrowserRouter>
+        {loading && <Loader onDone={() => setLoading(false)} />}
+        {!loading && <AppContent />}
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }
 

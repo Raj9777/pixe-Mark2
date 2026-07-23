@@ -373,7 +373,7 @@ export default function TermsOfService() {
             <div>
               <h4>PIXE — Legal Enquiries</h4>
               <p>
-                Email: <a href="mailto:raj@pixelexcellence.online">raj@pixelexcellence.online</a><br />
+                Email: <a href="mailto:raj@pixe.in">raj@pixe.in</a><br />
                 We will respond to all legal queries within <strong>5 business days</strong>.
               </p>
             </div>

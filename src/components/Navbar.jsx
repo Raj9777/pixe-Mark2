@@ -1,10 +1,12 @@
 import { NavLink } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { useTheme } from '../App';
 import './Navbar.css';
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -39,6 +41,18 @@ export default function Navbar() {
         ))}
       </ul>
 
+      {/* Theme toggle */}
+      <button
+        className="theme-toggle"
+        onClick={toggleTheme}
+        aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+        title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+      >
+        <span className={`theme-toggle-icon ${theme === 'dark' ? 'is-dark' : 'is-light'}`}>
+          {theme === 'dark' ? '☀️' : '🌙'}
+        </span>
+      </button>
+
       <NavLink to="/contact" className="btn btn-primary navbar-cta">
         Start a Project
       </NavLink>
@@ -66,6 +80,12 @@ export default function Navbar() {
               {label}
             </NavLink>
           ))}
+          <button
+            className="theme-toggle-mobile"
+            onClick={toggleTheme}
+          >
+            {theme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode'}
+          </button>
           <NavLink to="/contact" className="btn btn-primary" onClick={() => setOpen(false)}>
             Start a Project
           </NavLink>
