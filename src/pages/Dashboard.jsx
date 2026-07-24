@@ -175,6 +175,10 @@ export default function Dashboard() {
         </div>
 
         <div className="dashboard-top-actions">
+          <button className="btn-dash" onClick={handleSeedDemoMetrics} title="Load sample demo data">
+            🌱 Demo Data
+          </button>
+
           <button className="btn-dash" onClick={refreshMetrics} title="Refresh data">
             🔄 Refresh
           </button>

@@ -33,18 +33,21 @@ function getEmptyData(passcode = DEFAULT_PASSCODE) {
 /**
  * Helper to get current stored analytics object
  */
+/**
+ * Helper to get current stored analytics object
+ */
 function getStorageData() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) {
-      const emptyData = getEmptyData();
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(emptyData));
-      return emptyData;
+      const seedData = generateSeedData();
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(seedData));
+      return seedData;
     }
     return JSON.parse(raw);
   } catch (err) {
     console.error('Failed to read analytics from localStorage:', err);
-    return getEmptyData();
+    return generateSeedData();
   }
 }
 
@@ -60,21 +63,21 @@ function saveStorageData(data) {
 }
 
 /**
- * Generate rich, realistic seed metrics for first-time dashboard load
+ * Generate rich, realistic seed metrics for dashboard load & demo mode
  */
 function generateSeedData() {
   const now = Date.now();
   const DAY = 24 * 60 * 60 * 1000;
 
   const visits = [];
-  const pages = ['/', '/services', '/portfolio', '/about', '/contact', '/privacy'];
+  const pages = ['/', '/services', '/portfolio', '/about', '/contact', '/privacy', '/terms'];
   const sources = ['Direct', 'Google Search', 'LinkedIn', 'Instagram', 'Twitter / X', 'GitHub'];
   const devices = ['Desktop (Chrome)', 'Mobile (Safari iOS)', 'Desktop (Edge)', 'Mobile (Chrome Android)'];
 
   // Generate 7 days of historical visits
   for (let i = 6; i >= 0; i--) {
     const dayTimestamp = now - i * DAY;
-    const dailyCount = Math.floor(Math.random() * 25) + 35; // 35 to 60 visits/day
+    const dailyCount = Math.floor(Math.random() * 25) + 38; // 38 to 63 visits/day
 
     for (let j = 0; j < dailyCount; j++) {
       const timeOffset = Math.floor(Math.random() * DAY);
@@ -92,7 +95,7 @@ function generateSeedData() {
   const submissions = [
     {
       id: 'sub_101',
-      timestamp: new Date(now - 1 * DAY).toISOString(),
+      timestamp: new Date(now - 1 * DAY + 3 * 60 * 60 * 1000).toISOString(),
       type: 'Contact',
       name: 'Alex Vance',
       email: 'alex.vance@techcorp.io',
@@ -103,7 +106,7 @@ function generateSeedData() {
     },
     {
       id: 'sub_102',
-      timestamp: new Date(now - 3 * DAY).toISOString(),
+      timestamp: new Date(now - 2 * DAY + 5 * 60 * 60 * 1000).toISOString(),
       type: 'Instant Quote',
       name: 'Sarah Connor',
       email: 'sarah@cyberdyne.com',
@@ -114,7 +117,7 @@ function generateSeedData() {
     },
     {
       id: 'sub_103',
-      timestamp: new Date(now - 5 * DAY).toISOString(),
+      timestamp: new Date(now - 4 * DAY + 1 * 60 * 60 * 1000).toISOString(),
       type: 'Contact',
       name: 'David Miller',
       email: 'david@nexuslabs.co',
@@ -122,6 +125,17 @@ function generateSeedData() {
       interest: 'E-Commerce Platform',
       budget: '$10,000+',
       message: 'We want to migrate our storefront to Vite + custom backend API.'
+    },
+    {
+      id: 'sub_104',
+      timestamp: new Date(now - 5 * DAY + 8 * 60 * 60 * 1000).toISOString(),
+      type: 'Instant Quote',
+      name: 'Rachel Adams',
+      email: 'rachel@quantummedia.org',
+      phone: '+1 (555) 345-6789',
+      interest: 'Branding & Mobile Web',
+      budget: '$5,000 - $10,000',
+      message: 'Requring custom UI components and responsive design for iOS/Android web app.'
     }
   ];
 
@@ -161,6 +175,18 @@ function generateSeedData() {
       time: '16:00 EST',
       status: 'Completed',
       notes: 'Sent project roadmap proposal after successful call.'
+    },
+    {
+      id: 'book_204',
+      timestamp: new Date(now - 6 * DAY).toISOString(),
+      name: 'James Wright',
+      email: 'jwright@solardynamics.net',
+      phone: '+1 (555) 678-9012',
+      service: 'Discovery & Project Strategy Call',
+      date: new Date(now + 3 * DAY).toISOString().split('T')[0],
+      time: '11:00 EST',
+      status: 'Pending',
+      notes: 'Interested in web application redesign.'
     }
   ];
 
@@ -168,7 +194,8 @@ function generateSeedData() {
     { type: 'CTA_Click', label: 'Start a Project Button', timestamp: new Date(now - 2 * 60 * 60 * 1000).toISOString() },
     { type: 'Popup_View', label: 'Instant Quote Modal', timestamp: new Date(now - 4 * 60 * 60 * 1000).toISOString() },
     { type: 'CTA_Click', label: 'Book Consultation Call', timestamp: new Date(now - 6 * 60 * 60 * 1000).toISOString() },
-    { type: 'Hero_Impression', label: 'Hero Animation View', timestamp: new Date(now - 8 * 60 * 60 * 1000).toISOString() }
+    { type: 'Hero_Impression', label: 'Hero Animation View', timestamp: new Date(now - 8 * 60 * 60 * 1000).toISOString() },
+    { type: 'CTA_Click', label: 'Footer Contact Link', timestamp: new Date(now - 14 * 60 * 60 * 1000).toISOString() }
   ];
 
   return {
@@ -176,7 +203,17 @@ function generateSeedData() {
     submissions,
     bookings,
     impressions,
-    settings: initialData.settings
+    settings: {
+      passcode: DEFAULT_PASSCODE,
+      siteName: 'PIXE Digital Agency',
+      targetKeywords: [
+        { keyword: 'digital agency near me', volume: 4200, position: 3, clicks: 142, impressions: 1850 },
+        { keyword: 'react web development agency', volume: 2900, position: 2, clicks: 98, impressions: 1120 },
+        { keyword: 'ui ux design studio', volume: 5100, position: 5, clicks: 215, impressions: 2400 },
+        { keyword: 'branding and web design', volume: 1800, position: 4, clicks: 76, impressions: 890 },
+        { keyword: 'next js development services', volume: 3400, position: 2, clicks: 130, impressions: 1450 }
+      ]
+    }
   };
 }
 
