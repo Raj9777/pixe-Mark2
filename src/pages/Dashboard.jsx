@@ -43,6 +43,22 @@ export default function Dashboard() {
   useEffect(() => {
     if (authed) {
       refreshMetrics();
+
+      // Refresh metrics when forms are submitted in other browser windows/tabs
+      const handleStorage = (e) => {
+        if (e.key === 'pixe_analytics_v1') {
+          refreshMetrics();
+        }
+      };
+      window.addEventListener('storage', handleStorage);
+
+      // Polling timer to update dashboard dynamically
+      const timer = setInterval(refreshMetrics, 3000);
+
+      return () => {
+        window.removeEventListener('storage', handleStorage);
+        clearInterval(timer);
+      };
     }
   }, [authed]);
 

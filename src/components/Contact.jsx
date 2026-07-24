@@ -1,16 +1,51 @@
 import { useState } from 'react';
 import './Contact.css';
+import { sendContactEmail } from '../services/emailService';
+import { saveContactSub } from '../services/dbService';
+import { logSubmission } from '../services/analyticsService';
 
 const INTERESTS = ['Custom Software', 'Website', 'Mobile App', 'UI/UX Design'];
 
 export default function Contact() {
   const [interest, setInterest] = useState('Website');
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [formData, setFormData] = useState({ name: '', email: '', brief: '' });
 
-  const handleSubmit = (e) => {
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    const field = id === 'full-name' ? 'name' : id;
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 4000);
+    setSending(true);
+
+    const submissionPayload = {
+      type: 'Contact',
+      name: formData.name,
+      email: formData.email,
+      interest,
+      message: formData.brief
+    };
+
+    // Immediately log to local analytics dashboard service
+    logSubmission(submissionPayload);
+
+    try {
+      await Promise.allSettled([
+        sendContactEmail(submissionPayload),
+        saveContactSub(submissionPayload)
+      ]);
+    } catch (err) {
+      console.error('Contact submission error:', err);
+    } finally {
+      setSending(false);
+      setSubmitted(true);
+      setFormData({ name: '', email: '', brief: '' });
+      setTimeout(() => setSubmitted(false), 5000);
+    }
   };
 
   return (
@@ -84,6 +119,8 @@ export default function Contact() {
                       type="text"
                       className="form-control"
                       placeholder="John Doe"
+                      value={formData.name}
+                      onChange={handleChange}
                       required
                     />
                   </div>
@@ -97,6 +134,8 @@ export default function Contact() {
                       type="email"
                       className="form-control"
                       placeholder="john@company.com"
+                      value={formData.email}
+                      onChange={handleChange}
                       required
                     />
                   </div>
@@ -128,13 +167,15 @@ export default function Contact() {
                   className="form-control no-icon"
                   rows={4}
                   placeholder="Tell me about your vision, timeline, and requirements…"
+                  value={formData.brief}
+                  onChange={handleChange}
                   required
                 />
               </div>
 
               <div className="form-footer">
-                <button type="submit" className="btn btn-primary" style={{ width: '100%' }}>
-                  Send Message &rarr;
+                <button type="submit" className="btn btn-primary" style={{ width: '100%' }} disabled={sending}>
+                  {sending ? 'Sending...' : 'Send Message →'}
                 </button>
                 <div className="secure-note">
                   <span>🔒</span> Secure, encrypted connection.
