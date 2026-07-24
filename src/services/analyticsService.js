@@ -9,24 +9,26 @@ const SESSION_KEY = 'pixe_admin_session';
 
 const DEFAULT_PASSCODE = 'pixe2026';
 
-// Internal default structure
-const initialData = {
-  visits: [],
-  impressions: [],
-  submissions: [],
-  bookings: [],
-  settings: {
-    passcode: DEFAULT_PASSCODE,
-    siteName: 'PIXE Digital Agency',
-    targetKeywords: [
-      { keyword: 'digital agency near me', volume: 4200, position: 3, clicks: 380, impressions: 4500 },
-      { keyword: 'react web development agency', volume: 2900, position: 2, clicks: 310, impressions: 3200 },
-      { keyword: 'ui ux design studio', volume: 5100, position: 5, clicks: 240, impressions: 6100 },
-      { keyword: 'branding and web design', volume: 1800, position: 4, clicks: 195, impressions: 2400 },
-      { keyword: 'next js development services', volume: 3400, position: 2, clicks: 420, impressions: 4800 }
-    ]
-  }
-};
+// Helper for clean, empty storage structure
+function getEmptyData(passcode = DEFAULT_PASSCODE) {
+  return {
+    visits: [],
+    impressions: [],
+    submissions: [],
+    bookings: [],
+    settings: {
+      passcode: passcode,
+      siteName: 'PIXE Digital Agency',
+      targetKeywords: [
+        { keyword: 'digital agency near me', volume: 4200, position: 3, clicks: 0, impressions: 0 },
+        { keyword: 'react web development agency', volume: 2900, position: 2, clicks: 0, impressions: 0 },
+        { keyword: 'ui ux design studio', volume: 5100, position: 5, clicks: 0, impressions: 0 },
+        { keyword: 'branding and web design', volume: 1800, position: 4, clicks: 0, impressions: 0 },
+        { keyword: 'next js development services', volume: 3400, position: 2, clicks: 0, impressions: 0 }
+      ]
+    }
+  };
+}
 
 /**
  * Helper to get current stored analytics object
@@ -35,14 +37,14 @@ function getStorageData() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) {
-      const demoData = generateSeedData();
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(demoData));
-      return demoData;
+      const emptyData = getEmptyData();
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(emptyData));
+      return emptyData;
     }
     return JSON.parse(raw);
   } catch (err) {
     console.error('Failed to read analytics from localStorage:', err);
-    return initialData;
+    return getEmptyData();
   }
 }
 
@@ -470,8 +472,19 @@ export function exportToCSV(filename, rows) {
   document.body.removeChild(link);
 }
 
-export function resetAnalyticsData() {
+export function clearAllMetrics() {
+  const current = getStorageData();
+  const empty = getEmptyData(current.settings?.passcode || DEFAULT_PASSCODE);
+  saveStorageData(empty);
+  return empty;
+}
+
+export function seedDemoMetrics() {
   const seed = generateSeedData();
   saveStorageData(seed);
   return seed;
+}
+
+export function resetAnalyticsData() {
+  return clearAllMetrics();
 }

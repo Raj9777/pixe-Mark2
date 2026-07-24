@@ -8,7 +8,8 @@ import {
   getMetrics,
   updateBookingStatus,
   updatePasscode,
-  resetAnalyticsData,
+  clearAllMetrics,
+  seedDemoMetrics,
   exportToCSV
 } from '../services/analyticsService';
 import './Dashboard.css';
@@ -81,10 +82,18 @@ export default function Dashboard() {
     refreshMetrics();
   };
 
-  // Handle Reset Data
-  const handleResetData = () => {
-    if (window.confirm('Reset all analytics metrics to fresh seed data?')) {
-      resetAnalyticsData();
+  // Handle Clear All Metrics
+  const handleClearMetrics = () => {
+    if (window.confirm('Are you sure you want to clear all analytics and demo metrics? This will reset all metrics to 0 so you can track real traffic.')) {
+      clearAllMetrics();
+      refreshMetrics();
+    }
+  };
+
+  // Handle Seed Demo Metrics
+  const handleSeedDemoMetrics = () => {
+    if (window.confirm('Populate dashboard with sample demo metrics?')) {
+      seedDemoMetrics();
       refreshMetrics();
     }
   };
@@ -658,12 +667,18 @@ export default function Dashboard() {
             </div>
 
             <div className="settings-card glass">
-              <h4>🧹 Data & Seed Controls</h4>
-              <p>Re-populate demo metrics or reset stored local analytics tracking data.</p>
+              <h4>🧹 Data & Metric Controls</h4>
+              <p>Clear all demo metrics to start collecting fresh real-time traffic, or load sample demo data.</p>
 
-              <button className="btn-dash btn-dash-danger" onClick={handleResetData}>
-                🔄 Reset to Demo Metrics
-              </button>
+              <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+                <button className="btn-dash btn-dash-danger" onClick={handleClearMetrics}>
+                  🗑️ Clear All Metrics (Start Fresh)
+                </button>
+
+                <button className="btn-dash" onClick={handleSeedDemoMetrics}>
+                  🌱 Seed Demo Metrics
+                </button>
+              </div>
             </div>
           </div>
         </div>
