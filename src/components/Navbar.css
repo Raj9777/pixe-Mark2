@@ -109,11 +109,15 @@
 .hamburger {
   display: none;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   gap: 5px;
   background: none;
   border: none;
   cursor: pointer;
-  padding: 4px;
+  padding: 6px;
+  border-radius: 8px;
+  margin-left: auto;
 }
 .hamburger span {
   display: block;
@@ -134,10 +138,10 @@
   left: 0;
   right: 0;
   border-radius: 20px;
-  padding: 24px;
+  padding: 20px 24px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 14px;
   animation: slideDown 0.2s ease;
   /* Override .glass with a much darker, near-opaque background */
   background: rgba(5, 8, 16, 0.97) !important;
@@ -154,11 +158,15 @@
   font-size: 1rem;
   font-weight: 500;
   color: var(--text-muted);
-  padding: 8px 0;
+  padding: 10px 4px;
   border-bottom: 1px solid var(--glass-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: color 0.2s ease;
 }
 .mobile-drawer a.nav-active { color: var(--accent-cyan); }
-.mobile-drawer .btn { margin-top: 8px; text-align: center; }
+.mobile-drawer .btn { margin-top: 6px; text-align: center; justify-content: center; width: 100%; }
 
 @keyframes slideDown {
   from { opacity: 0; transform: translateY(-8px); }
@@ -168,11 +176,31 @@
 @media (max-width: 820px) {
   .navbar-links, .navbar-right { display: none; }
   .hamburger { display: flex; }
-  .navbar { border-radius: 20px; top: 16px; }
+  .navbar {
+    justify-content: space-between;
+    padding: 12px 20px;
+    border-radius: 20px;
+    top: 16px;
+  }
   .navbar.scrolled {
     width: 92%;
     padding: 10px 20px;
     top: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    width: 94%;
+    padding: 10px 16px;
+  }
+  .navbar.scrolled {
+    width: 94%;
+    padding: 8px 16px;
+  }
+  .mobile-drawer {
+    padding: 16px;
+    gap: 12px;
   }
 }
 
