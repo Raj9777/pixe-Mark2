@@ -50,6 +50,7 @@ function FAQ({ q, a }) {
 
 import { sendContactEmail } from '../services/emailService';
 import { saveContactSub } from '../services/dbService';
+import { logSubmission } from '../services/analyticsService';
 
 export default function ContactPage() {
   const [interest, setInterest] = useState('Website');
@@ -73,12 +74,17 @@ export default function ContactPage() {
 
     const message = `Company: ${formData.company || 'N/A'}\nPhone/WhatsApp: ${formData.phone || 'N/A'}\nReference URLs: ${formData.ref || 'N/A'}\n\nProject Brief:\n${formData.brief}`;
     const submissionPayload = {
+      type: 'Contact',
       name: formData.name,
       email: formData.email,
+      phone: formData.phone || '',
       interest,
       budget,
       message
     };
+
+    // Log to local analytics service immediately
+    logSubmission(submissionPayload);
 
     try {
       // Fire both database insertion and email trigger concurrently

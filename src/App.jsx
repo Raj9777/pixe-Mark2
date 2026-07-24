@@ -14,6 +14,8 @@ import ContactPage from './pages/ContactPage';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfService from './pages/TermsOfService';
 import CookiePolicy from './pages/CookiePolicy';
+import Dashboard from './pages/Dashboard';
+import { recordVisit } from './services/analyticsService';
 
 /* ── Theme Context ─────────────────────────── */
 export const ThemeContext = createContext({
@@ -53,20 +55,31 @@ function ThemeProvider({ children }) {
   );
 }
 
-// Scroll to top on route change
-function ScrollToTop() {
+// Scroll to top and record visit analytics on route change
+function ScrollToTopAndTrack() {
   const { pathname } = useLocation();
-  useEffect(() => { window.scrollTo(0, 0); }, [pathname]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    // Don't track visits inside admin dashboard itself
+    if (!pathname.startsWith('/admin') && !pathname.startsWith('/dashboard')) {
+      recordVisit(pathname);
+    }
+  }, [pathname]);
+
   return null;
 }
 
 function AppContent() {
+  const location = useLocation();
+  const isAdmin = location.pathname.startsWith('/admin') || location.pathname.startsWith('/dashboard');
+
   return (
     <>
       <div className="orb orb-1" />
       <div className="orb orb-2" />
-      <ScrollToTop />
-      <Navbar />
+      <ScrollToTopAndTrack />
+      {!isAdmin && <Navbar />}
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -77,11 +90,13 @@ function AppContent() {
           <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/terms" element={<TermsOfService />} />
           <Route path="/cookies" element={<CookiePolicy />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/admin" element={<Dashboard />} />
         </Routes>
       </main>
-      <Footer />
-      <PopupForm />
-      <CallPopup />
+      {!isAdmin && <Footer />}
+      {!isAdmin && <PopupForm />}
+      {!isAdmin && <CallPopup />}
     </>
   );
 }

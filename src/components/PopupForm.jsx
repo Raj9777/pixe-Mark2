@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import './PopupForm.css';
 import { sendBookingEmail } from '../services/emailService';
 import { saveBookingSub } from '../services/dbService';
+import { logBooking, logSubmission } from '../services/analyticsService';
 
 const SERVICES = ['Custom Software', 'Website', 'Mobile App', 'UI/UX Design', 'API / Backend', 'Other'];
 const TIMES = ['9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM', '6:00 PM'];
@@ -47,6 +48,7 @@ export default function PopupForm() {
     setSending(true);
 
     const submissionPayload = {
+      type: 'Instant Quote',
       name:    form.name,
       email:   form.email,
       phone:   form.phone,
@@ -55,6 +57,12 @@ export default function PopupForm() {
       date:    form.date,
       time,
     };
+
+    // Log both as form submission and booking entry into analytics
+    logSubmission(submissionPayload);
+    if (form.date || time) {
+      logBooking(submissionPayload);
+    }
 
     try {
       // Fire both database insertion and email trigger concurrently

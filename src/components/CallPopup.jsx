@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import './CallPopup.css';
+import { recordImpression } from '../services/analyticsService';
 
 export default function CallPopup() {
   const [open, setOpen] = useState(false);
@@ -18,6 +19,11 @@ export default function CallPopup() {
     return () => { document.body.style.overflow = ''; };
   }, [open]);
 
+  const handleOpen = () => {
+    setOpen(true);
+    recordImpression('Call_Trigger', 'Direct Call / WhatsApp Popup Opened');
+  };
+
   const handleClose = () => {
     setOpen(false);
   };
@@ -31,7 +37,7 @@ export default function CallPopup() {
       {/* Floating Call trigger button */}
       <button
         className={`call-trigger ${open ? 'hidden' : ''}`}
-        onClick={() => setOpen(true)}
+        onClick={handleOpen}
         aria-label="Direct Call or Message"
       >
         <span className="call-trigger-icon">📞</span>

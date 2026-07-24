@@ -39,7 +39,12 @@ export default function Footer() {
           </div>
         </div>
         <div className="footer-bottom">
-          <span>&copy; {year} PIXE. All rights reserved.</span>
+          <span>
+            &copy; {year} PIXE. All rights reserved. ·{' '}
+            <Link to="/dashboard" style={{ color: 'var(--text-muted)', fontSize: '0.82rem', textDecoration: 'none' }}>
+              Owner Dashboard 🔒
+            </Link>
+          </span>
           <div className="footer-socials">
             <a href="#" aria-label="LinkedIn">in</a>
             <a href="#" aria-label="GitHub">gh</a>
