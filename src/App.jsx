@@ -38,12 +38,28 @@ function ThemeProvider({ children }) {
   );
 }
 
-// Scroll to top and record visit analytics on route change
+// Scroll to top, set search page title, and record visit analytics on route change
 function ScrollToTopAndTrack() {
   const { pathname } = useLocation();
 
   useEffect(() => {
     window.scrollTo(0, 0);
+
+    const titles = {
+      '/': 'Pixel Excellence - Custom Website and Software',
+      '/about': 'About | Pixel Excellence - Custom Website and Software',
+      '/services': 'Services & Engagements | Pixel Excellence - Custom Website and Software',
+      '/portfolio': 'Selected Work & Portfolio | Pixel Excellence - Custom Website and Software',
+      '/contact': 'Contact Us | Pixel Excellence - Custom Website and Software',
+      '/privacy': 'Privacy Policy | Pixel Excellence - Custom Website and Software',
+      '/terms': 'Terms of Service | Pixel Excellence - Custom Website and Software',
+      '/cookies': 'Cookie Policy | Pixel Excellence - Custom Website and Software',
+      '/dashboard': 'Admin Dashboard | Pixel Excellence - Custom Website and Software',
+      '/admin': 'Admin Dashboard | Pixel Excellence - Custom Website and Software',
+    };
+
+    document.title = titles[pathname] || 'Pixel Excellence - Custom Website and Software';
+
     // Don't track visits inside admin dashboard itself
     if (!pathname.startsWith('/admin') && !pathname.startsWith('/dashboard')) {
       recordVisit(pathname);
@@ -52,6 +68,7 @@ function ScrollToTopAndTrack() {
 
   return null;
 }
+
 
 function AppContent() {
   const location = useLocation();
