@@ -1,22 +1,26 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap');
 
 :root {
-  --bg-dark: #05070a;
-  --bg-card: rgba(12, 16, 26, 0.55);
-  --bg-card-hover: rgba(20, 28, 46, 0.7);
-  --text-main: #f0f4f8;
-  --text-muted: #8a9bb0;
+  --bg-dark: #08090d;
+  --bg-surface: #0e1118;
+  --bg-card: #12151f;
+  --bg-card-hover: #181d2a;
+  --text-main: #f3f4f6;
+  --text-muted: #9ca3af;
+  --text-subtle: #6b7280;
   --accent-cyan: #00f0ff;
-  --accent-blue: #0055ff;
-  --glass-border: rgba(255, 255, 255, 0.10);
-  --glass-border-bright: rgba(0, 240, 255, 0.18);
-  --glass-blur: blur(32px);
-  --glass-blur-heavy: blur(48px);
-  --font-sans: 'Inter', sans-serif;
-  --font-display: 'Space Grotesk', sans-serif;
+  --accent-blue: #3b82f6;
+  --status-green: #10b981;
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-border-bright: rgba(0, 240, 255, 0.25);
+  --glass-blur: blur(24px);
+  --glass-blur-heavy: blur(40px);
+  --font-sans: 'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif;
+  --font-display: 'Plus Jakarta Sans', 'Space Grotesk', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
 
   /* Transition for theme switching */
-  --theme-transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
+  --theme-transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
 }
 
 /* ═══════════════════════════════════════════
@@ -564,4 +568,127 @@ img {
   background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
   color: #000;
 }
+
+/* ═══════════════════════════════════════════
+   KAROL BINKOWSKI MINIMALIST EDITORIAL UTILITIES
+═══════════════════════════════════════════ */
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+.kb-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.kb-status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--status-green);
+  box-shadow: 0 0 10px var(--status-green);
+  animation: kbPulse 2s infinite ease-in-out;
+}
+
+@keyframes kbPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+.kb-tech-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: #d1d5db;
+}
+
+.kb-step-num {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--accent-cyan);
+  letter-spacing: 0.08em;
+}
+
+.kb-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 24px;
+  border-radius: 8px;
+  background: #f3f4f6;
+  color: #090a0f;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.92rem;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid #ffffff;
+}
+
+.kb-btn-primary:hover {
+  background: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(255, 255, 255, 0.15);
+}
+
+.kb-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 24px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.03);
+  color: #f3f4f6;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.92rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  transition: all 0.2s ease;
+}
+
+.kb-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+}
+
+.kb-card {
+  background: var(--bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 28px;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.kb-card:hover {
+  border-color: rgba(255, 255, 255, 0.18);
+  background: var(--bg-card-hover);
+  transform: translateY(-2px);
+}
+
+[data-theme="light"] .kb-card {
+  background: #ffffff;
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .kb-card:hover {
+  border-color: rgba(0, 0, 0, 0.18);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
 

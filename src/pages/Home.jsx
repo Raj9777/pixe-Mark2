@@ -1,250 +1,247 @@
-import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Hero from '../components/Hero';
 import Testimonials from '../components/Testimonials';
 import './Home.css';
-import './HomeV2.css';
 
-/* ── Scroll-reveal hook ─────────────────────── */
-function useReveal(threshold = 0.1) {
-  const ref = useRef(null);
-  const [visible, setVisible] = useState(false);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(
-      ([entry]) => {
-        setVisible(entry.isIntersecting);
-      },
-      { 
-        threshold,
-        // Trigger exit a bit before leaving screen to ensure smooth transition
-        rootMargin: '-5% 0px -5% 0px'
-      }
-    );
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, [threshold]);
-  return [ref, visible];
-}
-
-/* ── Cycling words (Upscayl-style "made for") ─ */
-const FOR_WORDS = ['Startups', 'Founders', 'Businesses', 'Creators', 'Designers', 'You'];
-
-function CyclingWords() {
-  const [idx, setIdx] = useState(0);
-  const [exiting, setExiting] = useState(false);
-  const [ref, visible] = useReveal(0.3);
-
-  useEffect(() => {
-    if (!visible) return;
-    const timer = setInterval(() => {
-      setExiting(true);
-      setTimeout(() => {
-        setIdx(i => (i + 1) % FOR_WORDS.length);
-        setExiting(false);
-      }, 350);
-    }, 1800);
-    return () => clearInterval(timer);
-  }, [visible]);
-
-  return (
-    <section className="hv2-for-section" ref={ref}>
-      <p className="hv2-for-label">PIXE is built for</p>
-      <div className="hv2-for-word-wrap">
-        <h2 className={`hv2-for-word text-gradient ${exiting ? 'word-exit' : 'word-enter'}`}>
-          {FOR_WORDS[idx]}
-        </h2>
-      </div>
-    </section>
-  );
-}
-
-/* ── Feature rows (alternating) ──────────────── */
-const FEATURE_ROWS = [
+/* ── Typical Engagements ─────────────────────── */
+const ENGAGEMENTS = [
   {
-    icon: '💻',
-    accent: 'rgba(0,240,255,0.08)',
-    tag: 'Custom Software',
-    title: 'Built for your exact workflow.',
-    body: 'Got a process no off-the-shelf app covers? PIXE builds bespoke software — from SaaS platforms and internal dashboards to automation pipelines and B2B tools — engineered precisely around your business logic.',
-    extra: 'Every line of code is yours, fully owned, fully documented.',
+    num: '01',
+    title: 'Custom Software & SaaS MVP',
+    desc: 'From initial prototype to production-grade architecture. We build bespoke SaaS platforms, automated pipelines, and internal tools engineered for scale.',
+    tags: ['React', 'Next.js', 'Node.js', 'Python', 'PostgreSQL'],
+    features: ['Full technical ownership', 'HIPAA/SOC2 compliant options', 'Zero technical debt'],
   },
   {
-    icon: '🌐',
-    accent: 'rgba(0,85,255,0.08)',
-    tag: 'Web Design & Dev',
-    title: 'Websites that convert, not just impress.',
-    body: "Most agency sites look great but don't perform. PIXE sites are obsessively optimised — Lighthouse 95+, Core Web Vitals green, and built with conversion architecture from the ground up.",
-    extra: 'SEO-ready. CMS-integrated. Fast on day one.',
+    num: '02',
+    title: 'High-Conversion Web Architecture',
+    desc: 'Obsessively optimized web platforms. We combine high-end UI design with ultra-fast page speeds (Lighthouse 99+) and conversion-first user flows.',
+    tags: ['Next.js', 'Vite', 'Tailwind', 'Figma', 'CMS'],
+    features: ['Core Web Vitals green', 'SEO & accessibility built-in', '100% custom codebase'],
   },
   {
-    icon: '📱',
-    accent: 'rgba(120,40,255,0.08)',
-    tag: 'Mobile Apps',
-    title: 'One codebase. Two platforms. Zero compromise.',
-    body: 'React Native apps that feel completely native on iOS and Android. From App Store submission to push notifications, in-app purchases, and offline support — fully handled.',
-    extra: 'Half the cost. Same premium quality.',
+    num: '03',
+    title: 'Cross-Platform Mobile Apps',
+    desc: 'Native-feel iOS and Android applications built with React Native. App Store submission, offline capabilities, push notifications, and in-app purchases.',
+    tags: ['React Native', 'Expo', 'iOS', 'Android', 'REST/GraphQL'],
+    features: ['Single codebase delivery', 'Native animations & gesture UI', 'Complete ownership'],
+  },
+  {
+    num: '04',
+    title: 'Architecture & Performance Audit',
+    desc: 'We analyze your codebase, find what is slowing down your engineers or cloud budget, and execute targeted performance refactoring.',
+    tags: ['CI/CD', 'Cloud Cost', 'Static Analysis', 'Database Tuning'],
+    features: ['−70% infra cost reduction', 'Instant build speeds', 'Detailed written roadmap'],
   },
 ];
 
-function FeatureRow({ row, index }) {
-  const [ref, visible] = useReveal(0.12);
-  const isReverse = index % 2 === 1;
-  return (
-    <div
-      ref={ref}
-      className={`hv2-feature-row ${isReverse ? 'reverse' : ''} ${visible ? 'row-visible' : 'row-hidden'}`}
-      style={{ '--row-accent': row.accent, '--row-delay': `${index * 0.08}s` }}
-    >
-      <div className="hv2-feature-visual">
-        <div className="hv2-feature-icon-bg">
-          <span className="hv2-feature-icon">{row.icon}</span>
-        </div>
-        <div className="hv2-feature-glow" />
-      </div>
-      <div className="hv2-feature-copy">
-        <div className="section-pill">{row.tag}</div>
-        <h2>{row.title}</h2>
-        <p>{row.body}</p>
-        <p className="hv2-feature-extra">{row.extra}</p>
-        <Link to="/services" className="btn btn-secondary hv2-feature-link">
-          Explore this service →
-        </Link>
-      </div>
-    </div>
-  );
-}
-
-/* ── Bento grid cards ─────────────────────────── */
-const BENTO_CARDS = [
-  { icon: '⚡', title: 'Blazing fast delivery', body: 'Websites in days. Apps in weeks. Consistently ahead of schedule.', size: 'tall' },
-  { icon: '🔒', title: 'Transparent pricing', body: 'No scope creep surprises. UI/UX starts at ₹5K / $100. Web dev from ₹15K / $250.', size: 'normal' },
-  { icon: '🌍', title: 'Serving India & beyond', body: 'Clients across India, US, UK, EU — fully async-first so timezone is never a barrier.', size: 'normal' },
-  { icon: '🎨', title: 'Design-first code', body: 'Every interface is pixel-precise and grounded in user psychology.', size: 'wide' },
-  { icon: '📦', title: '30 days support', body: 'Post-launch bug fixes included. No retainer required.', size: 'normal' },
-  { icon: '🤝', title: 'One point of contact', body: 'You talk directly to the person building your product. Always.', size: 'normal' },
+/* ── Selected Case Studies ────────────────────── */
+const CASE_STUDIES = [
+  {
+    id: '01',
+    category: 'SaaS & AI Integration',
+    title: 'Clinical AI Concierge & Health Dashboard',
+    desc: 'Built a HIPAA-compliant medical decision support chatbot with real-time FHIR data integration and voice controls for international conferences.',
+    tags: ['Next.js', 'Vercel AI SDK', 'GPT-4', 'FHIR'],
+    metric: 'Zero to Production in 14 Days',
+    link: '/portfolio',
+  },
+  {
+    id: '02',
+    category: 'Web Platform & Performance',
+    title: 'E-Commerce Platform with 99+ Core Web Vitals',
+    desc: 'Re-architected a slow legacy store into a headless storefront. Cut page load times from 4.2s to 0.4s and boosted checkout conversions by 34%.',
+    tags: ['Next.js', 'Stripe', 'Tailwind CSS', 'GraphQL'],
+    metric: '−90% Load Time · +34% Conversion',
+    link: '/portfolio',
+  },
+  {
+    id: '03',
+    category: 'Mobile Application',
+    title: 'Cross-Platform Spatial & Fitness Tracking App',
+    desc: 'Engineered a React Native fitness app with real-time video keyframe detection, offline sync, and smooth 60fps animations.',
+    tags: ['React Native', 'Expo', 'TensorFlow', 'Firebase'],
+    metric: '4.9★ App Store Rating',
+    link: '/portfolio',
+  },
 ];
 
-function BentoCard({ card, i }) {
-  const [ref, visible] = useReveal(0.1);
-  return (
-    <div
-      ref={ref}
-      className={`hv2-bento-card glass ${card.size} ${visible ? 'bento-visible' : 'bento-hidden'}`}
-      style={{ transitionDelay: `${i * 0.07}s` }}
-    >
-      <div className="hv2-bento-icon">{card.icon}</div>
-      <h3>{card.title}</h3>
-      <p>{card.body}</p>
-      <div className="hv2-bento-glow-hover" />
-    </div>
-  );
-}
-
-/* ── Stats row ────────────────────────────────── */
-const STATS = [
-  { value: '50+', label: 'Projects shipped' },
-  { value: '3×', label: 'Faster than agencies' },
-  { value: '100%', label: 'Client satisfaction' },
-  { value: '₹5K', label: 'Starting price' },
+/* ── Process Steps ───────────────────────────── */
+const PROCESS_STEPS = [
+  {
+    num: '01',
+    title: 'We own the outcome',
+    body: "Give us the core problem, not just a static task list. We find the shortest path, flag architecture risks early, and deliver on time — you don't chase us.",
+  },
+  {
+    num: '02',
+    title: 'Async-first, global speed',
+    body: 'We operate async-first with overlapping call windows. Clear written documentation for every decision so your team is never blocked waiting.',
+  },
+  {
+    num: '03',
+    title: 'Two versions of every decision',
+    body: 'Your engineers get the deep technical specifics. Your stakeholders get the business impact. Clear communication with zero translation lost.',
+  },
+  {
+    num: '04',
+    title: 'Fixed scope, zero surprises',
+    body: 'Transparent upfront rates starting from ₹5,000 / $100. Clear deliverables defined before a line of code is written — no hidden retainers.',
+  },
 ];
 
-function StatsRow() {
-  const [ref, visible] = useReveal(0.2);
-  return (
-    <div className={`hv2-stats-row ${visible ? 'stats-visible' : 'stats-hidden'}`} ref={ref}>
-      {STATS.map((s, i) => (
-        <div key={s.label} className="hv2-stat" style={{ transitionDelay: `${i * 0.1}s` }}>
-          <span className="hv2-stat-value text-gradient">{s.value}</span>
-          <span className="hv2-stat-label">{s.label}</span>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-/* ── Giant scrolling ticker ───────────────────── */
-function Ticker() {
-  const words = ['Custom Software', '·', 'Web Design', '·', 'Mobile Apps', '·', 'UI/UX', '·', 'APIs', '·', 'Fast Delivery', '·'];
-  const doubled = [...words, ...words];
-  return (
-    <div className="hv2-ticker-wrap" aria-hidden="true">
-      <div className="hv2-ticker-inner">
-        {doubled.map((w, i) => (
-          <span key={i} className={w === '·' ? 'hv2-ticker-dot' : 'hv2-ticker-word'}>{w}</span>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-/* ── Final CTA ────────────────────────────────── */
-function FinalCTA() {
-  const [ref, visible] = useReveal(0.2);
-  return (
-    <section className={`hv2-final-cta ${visible ? 'cta-visible' : 'cta-hidden'}`} ref={ref}>
-      <div className="hv2-final-cta-inner glass">
-        <div className="hv2-cta-glow" />
-        <div className="section-pill">Ready?</div>
-        <h2>
-          Let's build something<br />
-          <span className="text-gradient">remarkable.</span>
-        </h2>
-        <p>No fluff. No long waits. Just fast, focused, world-class work.</p>
-        <div className="hv2-cta-actions">
-          <Link to="/contact" className="btn btn-primary">Start a Project →</Link>
-          <Link to="/portfolio" className="btn btn-secondary">View Work</Link>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ── Main Home Page ───────────────────────────── */
 export default function Home() {
   return (
-    <>
+    <div className="kb-home">
       {/* 1. Hero */}
       <Hero />
 
-      {/* 2. Stats */}
-      <section className="hv2-section">
-        <StatsRow />
+      {/* 2. Typical Engagements */}
+      <section className="kb-section" id="services">
+        <div className="kb-section-header">
+          <span className="kb-badge font-mono">SERVICES & SCOPE</span>
+          <h2 className="kb-section-title">Typical Engagements</h2>
+          <p className="kb-section-sub">
+            Whether you need an MVP built from scratch or a codebase rescued, we deliver clear outcomes.
+          </p>
+        </div>
+
+        <div className="kb-engagements-grid">
+          {ENGAGEMENTS.map((eng) => (
+            <div key={eng.num} className="kb-card kb-engagement-card">
+              <div className="kb-card-top">
+                <span className="kb-step-num">{eng.num}</span>
+                <h3 className="kb-card-title">{eng.title}</h3>
+              </div>
+
+              <p className="kb-card-desc">{eng.desc}</p>
+
+              <div className="kb-tags-row">
+                {eng.tags.map((t) => (
+                  <span key={t} className="kb-tech-tag">
+                    {t}
+                  </span>
+                ))}
+              </div>
+
+              <ul className="kb-features-list">
+                {eng.features.map((f, i) => (
+                  <li key={i}>
+                    <span className="kb-check font-mono">✓</span> {f}
+                  </li>
+                ))}
+              </ul>
+
+              <div className="kb-card-action">
+                <Link to="/services" className="kb-btn-secondary">
+                  Explore details →
+                </Link>
+              </div>
+            </div>
+          ))}
+        </div>
       </section>
 
-      {/* 3. Ticker */}
-      <Ticker />
-
-      {/* 4. Feature rows */}
-      <section className="hv2-section hv2-features-section">
-        <div className="hv2-section-header">
-          <div className="section-pill">What we do</div>
-          <h2>Pixel-perfect craft.<br /><span className="text-gradient">Engineered to perform.</span></h2>
-          <p>Premium digital products across every platform and discipline.</p>
+      {/* 3. Selected Case Studies */}
+      <section className="kb-section kb-section-alt" id="work">
+        <div className="kb-section-header">
+          <span className="kb-badge font-mono">CASE STUDIES</span>
+          <h2 className="kb-section-title">Selected Work & Proof</h2>
+          <p className="kb-section-sub">Real products, production code, and measurable business outcomes.</p>
         </div>
-        {FEATURE_ROWS.map((row, i) => <FeatureRow key={row.tag} row={row} index={i} />)}
+
+        <div className="kb-case-grid">
+          {CASE_STUDIES.map((c) => (
+            <div key={c.id} className="kb-card kb-case-card">
+              <div className="kb-case-header">
+                <span className="kb-case-cat font-mono">{c.category}</span>
+                <span className="kb-case-metric font-mono">{c.metric}</span>
+              </div>
+
+              <h3 className="kb-case-title">{c.title}</h3>
+              <p className="kb-case-desc">{c.desc}</p>
+
+              <div className="kb-tags-row">
+                {c.tags.map((t) => (
+                  <span key={t} className="kb-tech-tag">
+                    {t}
+                  </span>
+                ))}
+              </div>
+
+              <Link to={c.link} className="kb-link-arrow font-mono">
+                Read full case study →
+              </Link>
+            </div>
+          ))}
+        </div>
+
+        <div className="kb-center-btn">
+          <Link to="/portfolio" className="kb-btn-primary">
+            See all work & products →
+          </Link>
+        </div>
       </section>
 
-      {/* 5. Cycling words */}
-      <CyclingWords />
-
-      {/* 6. Bento grid */}
-      <section className="hv2-section hv2-bento-section">
-        <div className="hv2-section-header">
-          <div className="section-pill">Why PIXE</div>
-          <h2>Built different,<br /><span className="text-gradient">by design.</span></h2>
-        </div>
-        <div className="hv2-bento-grid">
-          {BENTO_CARDS.map((c, i) => <BentoCard key={c.title} card={c} i={i} />)}
+      {/* 4. What We Actually Do */}
+      <section className="kb-section">
+        <div className="kb-statement-card">
+          <span className="kb-badge font-mono">OUR PHILOSOPHY</span>
+          <h2 className="kb-statement-heading">
+            We find what's costing you — and we cut it.
+          </h2>
+          <p className="kb-statement-body">
+            The AI prototype that won't scale. The website that takes 4 seconds to load. The app feature stuck in code review for three sprints. We take the expensive problem everyone learned to live with — and we ship the solution.
+          </p>
         </div>
       </section>
 
-      {/* 7. Testimonials */}
+      {/* 5. How We Work */}
+      <section className="kb-section kb-section-alt">
+        <div className="kb-section-header">
+          <span className="kb-badge font-mono">METHODOLOGY</span>
+          <h2 className="kb-section-title">How We Work</h2>
+          <p className="kb-section-sub">Simple, direct, and focused on momentum.</p>
+        </div>
+
+        <div className="kb-process-grid">
+          {PROCESS_STEPS.map((step) => (
+            <div key={step.num} className="kb-card kb-process-card">
+              <span className="kb-step-num">{step.num}</span>
+              <h3 className="kb-process-title">{step.title}</h3>
+              <p className="kb-process-body">{step.body}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* 6. Testimonials */}
       <Testimonials />
 
-      {/* 8. Final CTA */}
-      <FinalCTA />
-    </>
+      {/* 7. Final Call CTA */}
+      <section className="kb-section">
+        <div className="kb-final-cta-card">
+          <span className="kb-badge font-mono">LET'S TALK</span>
+          <h2 className="kb-final-title">
+            Have a project in mind?<br />
+            Let's build it right.
+          </h2>
+          <p className="kb-final-sub">
+            Book a 30-min call. No sales pitch deck — just your problem, tech requirements, and whether we're the right team for it.
+          </p>
+          <div className="kb-final-actions">
+            <Link to="/contact" className="kb-btn-primary">
+              <span>Book a 30-min call</span>
+              <span>→</span>
+            </Link>
+            <a href="mailto:raj@pixelexcellence.online" className="kb-btn-secondary">
+              <span>Or send an email</span>
+              <span>✉</span>
+            </a>
+          </div>
+        </div>
+      </section>
+    </div>
   );
 }
+

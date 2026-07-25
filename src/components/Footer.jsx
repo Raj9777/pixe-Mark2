@@ -3,55 +3,72 @@ import './Footer.css';
 
 export default function Footer() {
   const year = new Date().getFullYear();
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
-    <footer className="footer">
-      <div className="footer-inner">
-        <div className="footer-top">
-          <div>
-            <div className="footer-logo">
-              <img src="/assets/logo.png" alt="PIXE Logo" className="logo-img" />
+    <footer className="kb-footer">
+      <div className="kb-footer-container">
+        <div className="kb-footer-grid">
+          {/* Col 1: Brand & bio statement */}
+          <div className="kb-footer-brand">
+            <div className="kb-footer-logo-row">
+              <span className="logo-badge">PIXE</span>
+              <span className="logo-text">Software & Web Studio</span>
             </div>
-            <p className="footer-tagline">Engineering tomorrow. Delivering today.</p>
+            <p className="kb-footer-desc">
+              We take projects that are stuck or complex and ship them end-to-end.
+              Custom software, web applications, mobile platforms, and performance optimizations.
+            </p>
+            <div className="kb-footer-cta-row">
+              <Link to="/contact" className="kb-btn-primary">
+                Book a 30-min call →
+              </Link>
+            </div>
           </div>
-          <div className="footer-cols">
-            <div className="footer-col">
-              <h5>Navigate</h5>
-              <Link to="/">Home</Link>
-              <Link to="/about">About</Link>
-              <Link to="/services">Services</Link>
-              <Link to="/portfolio">Portfolio</Link>
-              <Link to="/contact">Contact</Link>
-            </div>
-            <div className="footer-col">
-              <h5>Services</h5>
-              <Link to="/services">Custom Software</Link>
-              <Link to="/services">Web Design</Link>
-              <Link to="/services">Mobile Apps</Link>
-              <Link to="/services">UI/UX Design</Link>
-              <Link to="/services">API Integrations</Link>
-            </div>
-            <div className="footer-col">
-              <h5>Legal</h5>
-              <Link to="/privacy">Privacy Policy</Link>
-              <Link to="/terms">Terms of Service</Link>
-              <Link to="/cookies">Cookie Policy</Link>
-            </div>
+
+          {/* Col 2: Pages */}
+          <div className="kb-footer-col">
+            <h4 className="font-mono">PAGES</h4>
+            <Link to="/portfolio">Work</Link>
+            <Link to="/services">Services</Link>
+            <Link to="/about">About</Link>
+            <Link to="/contact">Contact</Link>
+          </div>
+
+          {/* Col 3: Contact */}
+          <div className="kb-footer-col">
+            <h4 className="font-mono">CONTACT</h4>
+            <a href="mailto:raj@pixelexcellence.online" className="kb-footer-email">raj@pixelexcellence.online</a>
+            <a href="https://linkedin.com" target="_blank" rel="noreferrer">LinkedIn</a>
+            <a href="https://github.com" target="_blank" rel="noreferrer">GitHub</a>
+            <a href="https://x.com" target="_blank" rel="noreferrer">X (Twitter)</a>
+          </div>
+
+          {/* Col 4: Legal & Dashboard */}
+          <div className="kb-footer-col">
+            <h4 className="font-mono">LEGAL</h4>
+            <Link to="/privacy">Privacy Policy</Link>
+            <Link to="/terms">Terms of Service</Link>
+            <Link to="/cookies">Cookie Policy</Link>
+            <Link to="/dashboard" className="kb-owner-link font-mono">Owner Dashboard 🔒</Link>
           </div>
         </div>
-        <div className="footer-bottom">
-          <span>
-            &copy; {year} PIXE. All rights reserved. ·{' '}
-            <Link to="/dashboard" style={{ color: 'var(--text-muted)', fontSize: '0.82rem', textDecoration: 'none' }}>
-              Owner Dashboard 🔒
-            </Link>
-          </span>
-          <div className="footer-socials">
-            <a href="#" aria-label="LinkedIn">in</a>
-            <a href="#" aria-label="GitHub">gh</a>
-            <a href="#" aria-label="Twitter">𝕏</a>
+
+        {/* Footer Bottom Bar */}
+        <div className="kb-footer-bottom">
+          <div className="kb-footer-copyright">
+            © {year} PIXE Studio. Async-first · Worldwide operations.
           </div>
+
+          <button onClick={scrollToTop} className="kb-back-top font-mono">
+            Back to top ↑
+          </button>
         </div>
       </div>
     </footer>
   );
 }
+

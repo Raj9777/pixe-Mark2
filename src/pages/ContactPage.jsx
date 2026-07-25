@@ -1,71 +1,61 @@
 import { useState } from 'react';
+import { sendContactEmail } from '../services/emailService';
+import { saveContactSub } from '../services/dbService';
+import { logSubmission } from '../services/analyticsService';
 import '../components/Contact.css';
 import './ContactPage.css';
 
-
-const INTERESTS = ['Custom Software', 'Website', 'Mobile App', 'UI/UX Design', 'API / Backend', 'Other'];
-
-const BUDGETS_INR = ['₹20,000 – ₹50,000', '₹50,000 – ₹1,50,000', '₹1,50,000 – ₹5,00,000', '₹5,00,000+'];
-const BUDGETS_USD = ['$300 – $700', '$700 – $2,000', '$2,000 – $7,000', '$7,000+'];
+const INTERESTS = ['Custom Software', 'Website Architecture', 'Mobile App', 'UI/UX Design', 'API / Backend', 'Audit'];
+const BUDGETS_INR = ['₹15,000 – ₹50,000', '₹50,000 – ₹1.5L', '₹1.5L – ₹5L', '₹5L+'];
+const BUDGETS_USD = ['$100 – $500', '$500 – $2,000', '$2,000 – $5,000', '$5,000+'];
 
 const faqs = [
   {
-    q: 'How fast can you actually deliver?',
-    a: 'Most websites ship in 1–3 days. Custom software takes 3–8 days depending on complexity. I\'ve never missed a deadline.',
+    q: 'How fast can you deliver?',
+    a: 'Websites ship in 1–3 days. Custom software & SaaS platforms take 3–8 days depending on scope. We set a fixed delivery date on day one.',
   },
   {
-    q: 'Do you work with international clients?',
-    a: 'Yes — I work with clients worldwide. Payments accepted in INR and USD. I work async-first so timezone is rarely an issue.',
+    q: 'Do you work async with international clients?',
+    a: 'Yes. We work async-first with clients in India, US, UK, and EU. Rates are available in INR and USD.',
   },
   {
-    q: 'What\'s included after launch?',
-    a: 'Every project includes 30 days of post-launch support for bug fixes at no extra cost. Ongoing retainers are available.',
-  },
-  {
-    q: 'Can I see work before paying?',
-    a: 'Absolutely. I share a detailed proposal with mockups before any work begins. You only proceed when you\'re fully confident.',
+    q: 'What happens after launch?',
+    a: 'Every project includes 30 days of post-launch support and bug fixes at zero extra charge.',
   },
   {
     q: 'Do you sign NDAs?',
-    a: 'Yes. I\'m happy to sign an NDA before we discuss your project details. Confidentiality is standard practice for me.',
-  },
-  {
-    q: 'What if I already have a half-built project?',
-    a: 'I frequently take on rescue projects and existing codebases. I\'ll do a thorough audit first so you know exactly what you\'re getting into.',
+    a: 'Yes, we are happy to sign an NDA before reviewing proprietary technical briefs or codebases.',
   },
 ];
 
 function FAQ({ q, a }) {
   const [open, setOpen] = useState(false);
   return (
-    <div className={`faq-item glass ${open ? 'open' : ''}`} onClick={() => setOpen(o => !o)}>
-      <div className="faq-q">
+    <div className={`kb-card kb-faq-item ${open ? 'open' : ''}`} onClick={() => setOpen((o) => !o)}>
+      <div className="kb-faq-q">
+        <span className="font-mono" style={{ color: 'var(--accent-cyan)', marginRight: '10px' }}>?</span>
         <span>{q}</span>
-        <span className={`faq-chevron ${open ? 'up' : ''}`}>›</span>
+        <span className="kb-faq-chevron">{open ? '−' : '+'}</span>
       </div>
-      {open && <p className="faq-a">{a}</p>}
+      {open && <p className="kb-faq-a">{a}</p>}
     </div>
   );
 }
 
-import { sendContactEmail } from '../services/emailService';
-import { saveContactSub } from '../services/dbService';
-import { logSubmission } from '../services/analyticsService';
-
 export default function ContactPage() {
-  const [interest, setInterest] = useState('Website');
+  const [interest, setInterest] = useState('Website Architecture');
   const [budget, setBudget] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [isINR, setIsINR] = useState(true);
   const [formData, setFormData] = useState({ name: '', email: '', company: '', phone: '', brief: '', ref: '' });
   const [sending, setSending] = useState(false);
-  
+
   const budgets = isINR ? BUDGETS_INR : BUDGETS_USD;
 
   const handleChange = (e) => {
     const { id, value } = e.target;
     const field = id.replace('cp-', '');
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleSubmit = async (e) => {
@@ -80,212 +70,181 @@ export default function ContactPage() {
       phone: formData.phone || '',
       interest,
       budget,
-      message
+      message,
     };
 
-    // Log to local analytics service immediately
     logSubmission(submissionPayload);
 
     try {
-      // Fire both database insertion and email trigger concurrently
-      const results = await Promise.allSettled([
+      await Promise.allSettled([
         sendContactEmail(submissionPayload),
-        saveContactSub(submissionPayload)
+        saveContactSub(submissionPayload),
       ]);
-
-      // Log errors if any of the operations failed
-      if (results[0].status === 'rejected') {
-        console.error('EmailJS notification failed:', results[0].reason);
-      }
-      if (results[1].status === 'rejected') {
-        console.error('Database logging failed:', results[1].reason);
-      }
     } catch (err) {
       console.error('Contact submission error:', err);
     } finally {
       setSending(false);
       setSubmitted(true);
-      // Reset form
       setFormData({ name: '', email: '', company: '', phone: '', brief: '', ref: '' });
-      setInterest('Website');
-      setBudget('');
     }
   };
 
   return (
-    <>
+    <div className="kb-contact-page">
       {/* Hero */}
-      <section className="page-hero contact-page-hero">
-        <div className="page-hero-content">
-          <div className="section-pill">Contact</div>
-          <h1>Let's craft the <br /><span className="text-gradient">future together.</span></h1>
-          <p>Ready to build something remarkable? Tell me about your project and I'll get back to you within 24 hours — no fluff, no sales pitch.</p>
-        </div>
-        <div className="contact-page-aside">
-          <div className="contact-details glass">
-            <div className="contact-detail-item">
-              <div className="contact-detail-icon">📍</div>
-              <div className="contact-detail-info">
-                <strong>Global Remote</strong>
-                <span>Working with clients worldwide</span>
+      <section className="kb-contact-hero">
+        <div className="kb-badge font-mono">LET'S TALK</div>
+        <h1 className="kb-contact-title">
+          Book a 30-min call. <br />
+          <span className="kb-title-accent">No sales pitch deck.</span>
+        </h1>
+        <p className="kb-contact-sub">
+          Tell us about your product challenge. We read every inquiry and reply within 24 hours with technical feedback and estimated scope.
+        </p>
+      </section>
+
+      {/* Main Grid */}
+      <section className="kb-section">
+        <div className="kb-contact-grid">
+          {/* Left Details */}
+          <div className="kb-contact-info">
+            <div className="kb-card">
+              <h3 className="kb-info-heading font-mono">DIRECT CONTACT</h3>
+
+              <div className="kb-info-item">
+                <span className="info-lbl font-mono">EMAIL</span>
+                <a href="mailto:raj@pixelexcellence.online" className="info-val font-mono">raj@pixelexcellence.online</a>
+              </div>
+
+              <div className="kb-info-item">
+                <span className="info-lbl font-mono">DIRECT CALL / WHATSAPP</span>
+                <a href="tel:+917381763856" className="info-val font-mono">+91 7381763856</a>
+              </div>
+
+              <div className="kb-info-item">
+                <span className="info-lbl font-mono">AVAILABILITY</span>
+                <span className="info-val font-mono" style={{ color: 'var(--status-green)' }}>● Q3 2026 Contracts Open</span>
+              </div>
+
+              <div className="kb-info-item">
+                <span className="info-lbl font-mono">RESPONSE TIME</span>
+                <span className="info-val">Under 24 hours guaranteed</span>
               </div>
             </div>
-            <div className="contact-detail-item">
-              <div className="contact-detail-icon">✉️</div>
-              <div className="contact-detail-info">
-                <strong><a href="mailto:raj@pixe.in" style={{ color: 'inherit', textDecoration: 'none' }}>raj@pixe.in</a></strong>
-                <span>Reply within 24 hours</span>
-              </div>
-            </div>
-            <div className="contact-detail-item">
-              <div className="contact-detail-icon">📞</div>
-              <div className="contact-detail-info">
-                <strong><a href="tel:+917381763856" style={{ color: 'inherit', textDecoration: 'none' }}>+91 7381763856</a></strong>
-                <span>Direct Call / WhatsApp</span>
-              </div>
-            </div>
-            <div className="contact-detail-item">
-              <div className="contact-detail-icon">⚡</div>
-              <div className="contact-detail-info">
-                <strong>Fast Delivery</strong>
-                <span>Websites from 1 day · Software from 3 days</span>
-              </div>
-            </div>
-            <div className="contact-detail-item">
-              <div className="contact-detail-icon">💰</div>
-              <div className="contact-detail-info">
-                <strong>Starting From ₹20,000 / $300</strong>
-                <span>Transparent fixed pricing, no surprises</span>
-              </div>
+          </div>
+
+          {/* Right Form */}
+          <div className="kb-contact-form-wrap">
+            <div className="kb-card">
+              {submitted ? (
+                <div className="kb-success-state">
+                  <div className="kb-step-num font-mono">PROPOSAL RECEIVED</div>
+                  <h3 className="kb-success-heading">Message sent successfully!</h3>
+                  <p className="kb-success-text">
+                    We will review your brief and get back to you with actionable next steps within 24 hours.
+                  </p>
+                  <button type="button" className="kb-btn-secondary" onClick={() => setSubmitted(false)}>
+                    Send another brief →
+                  </button>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="kb-form-stack">
+                  <div className="kb-form-row">
+                    <div className="kb-form-group">
+                      <label htmlFor="cp-name" className="font-mono">FULL NAME *</label>
+                      <input id="cp-name" type="text" className="kb-input" placeholder="Alex Morgan" value={formData.name} onChange={handleChange} required />
+                    </div>
+                    <div className="kb-form-group">
+                      <label htmlFor="cp-email" className="font-mono">EMAIL ADDRESS *</label>
+                      <input id="cp-email" type="email" className="kb-input" placeholder="alex@company.com" value={formData.email} onChange={handleChange} required />
+                    </div>
+                  </div>
+
+                  <div className="kb-form-row">
+                    <div className="kb-form-group">
+                      <label htmlFor="cp-company" className="font-mono">COMPANY / PRODUCT</label>
+                      <input id="cp-company" type="text" className="kb-input" placeholder="Company Name" value={formData.company} onChange={handleChange} />
+                    </div>
+                    <div className="kb-form-group">
+                      <label htmlFor="cp-phone" className="font-mono">PHONE / WHATSAPP</label>
+                      <input id="cp-phone" type="tel" className="kb-input" placeholder="+91..." value={formData.phone} onChange={handleChange} />
+                    </div>
+                  </div>
+
+                  <div className="kb-form-group">
+                    <label className="font-mono">PRIMARY SERVICE NEEDED *</label>
+                    <div className="kb-pill-selector">
+                      {INTERESTS.map((item) => (
+                        <button
+                          type="button"
+                          key={item}
+                          className={`kb-pill-btn font-mono ${interest === item ? 'active' : ''}`}
+                          onClick={() => setInterest(item)}
+                        >
+                          {item}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="kb-form-group">
+                    <div className="kb-budget-header">
+                      <label className="font-mono">APPROXIMATE BUDGET</label>
+                      <div className="currency-toggle glass" style={{ transform: 'scale(0.85)', transformOrigin: 'right' }}>
+                        <button type="button" className={isINR ? 'active' : ''} onClick={() => setIsINR(true)}>₹</button>
+                        <button type="button" className={!isINR ? 'active' : ''} onClick={() => setIsINR(false)}>$</button>
+                      </div>
+                    </div>
+                    <div className="kb-pill-selector">
+                      {budgets.map((b) => (
+                        <button
+                          type="button"
+                          key={b}
+                          className={`kb-pill-btn font-mono ${budget === b ? 'active' : ''}`}
+                          onClick={() => setBudget(b)}
+                        >
+                          {b}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="kb-form-group">
+                    <label htmlFor="cp-brief" className="font-mono">PROJECT BRIEF / GOALS *</label>
+                    <textarea
+                      id="cp-brief"
+                      className="kb-textarea"
+                      rows={5}
+                      placeholder="Describe what you want to build, current blockers, or target launch timeframe..."
+                      value={formData.brief}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+
+                  <button type="submit" className="kb-btn-primary" style={{ width: '100%', justifyContent: 'center' }} disabled={sending}>
+                    {sending ? 'Sending...' : 'Send Brief →'}
+                  </button>
+                </form>
+              )}
             </div>
           </div>
         </div>
       </section>
 
-      {/* Form */}
-      <section className="section contact-form-section">
-        <div className="contact-form-wrap glass">
-          {submitted ? (
-            <div className="contact-success">
-              <div className="success-icon">🚀</div>
-              <h3>Message received!</h3>
-              <p>I'll review your project details and get back to you within 24 hours. Exciting things ahead!</p>
-              <button type="button" className="btn btn-secondary" style={{ marginTop: '20px' }} onClick={() => setSubmitted(false)}>
-                Send another message
-              </button>
-            </div>
-          ) : (
-            <form onSubmit={handleSubmit} className="form-stack">
-              <div className="form-section-title">Project Details</div>
-              <div className="form-row">
-                <div className="form-group">
-                  <label htmlFor="cp-name">Full Name *</label>
-                  <div className="input-wrap">
-                    <span className="input-icon">👤</span>
-                    <input id="cp-name" type="text" className="form-control" placeholder="John Doe" value={formData.name} onChange={handleChange} required />
-                  </div>
-                </div>
-                <div className="form-group">
-                  <label htmlFor="cp-email">Email Address *</label>
-                  <div className="input-wrap">
-                    <span className="input-icon">✉️</span>
-                    <input id="cp-email" type="email" className="form-control" placeholder="john@company.com" value={formData.email} onChange={handleChange} required />
-                  </div>
-                </div>
-              </div>
-
-              <div className="form-row">
-                <div className="form-group">
-                  <label htmlFor="cp-company">Company / Brand</label>
-                  <div className="input-wrap">
-                    <span className="input-icon">🏢</span>
-                    <input id="cp-company" type="text" className="form-control" placeholder="Optional" value={formData.company} onChange={handleChange} />
-                  </div>
-                </div>
-                <div className="form-group">
-                  <label htmlFor="cp-phone">Phone / WhatsApp</label>
-                  <div className="input-wrap">
-                    <span className="input-icon">📱</span>
-                    <input id="cp-phone" type="tel" className="form-control" placeholder="+91 98765 43210" value={formData.phone} onChange={handleChange} />
-                  </div>
-                </div>
-              </div>
-
-              <div className="form-group">
-                <label>Service Needed *</label>
-                <div className="pill-selector">
-                  {INTERESTS.map(item => (
-                    <label key={item} className="pill-option">
-                      <input type="radio" name="interest" value={item} checked={interest === item} onChange={() => setInterest(item)} />
-                      <span className="pill-label">{item}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-
-              <div className="form-group">
-                <div className="budget-label-row">
-                  <label>Approximate Budget</label>
-                  <div className="currency-toggle glass" style={{ transform: 'scale(0.85)', transformOrigin: 'right' }}>
-                    <button type="button" className={isINR ? 'active' : ''} onClick={() => setIsINR(true)}>₹</button>
-                    <button type="button" className={!isINR ? 'active' : ''} onClick={() => setIsINR(false)}>$</button>
-                  </div>
-                </div>
-                <div className="pill-selector">
-                  {budgets.map(b => (
-                    <label key={b} className="pill-option">
-                      <input type="radio" name="budget" value={b} checked={budget === b} onChange={() => setBudget(b)} />
-                      <span className="pill-label">{b}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="cp-brief">Project Brief *</label>
-                <textarea
-                  id="cp-brief"
-                  className="form-control no-icon"
-                  rows={5}
-                  placeholder="Tell me about your project — what problem it solves, who the users are, your timeline, and any existing work or references you have."
-                  value={formData.brief}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="cp-ref">Reference URLs / Inspiration</label>
-                <div className="input-wrap">
-                  <span className="input-icon">🔗</span>
-                  <input id="cp-ref" type="text" className="form-control" placeholder="https://example.com (optional)" value={formData.ref} onChange={handleChange} />
-                </div>
-              </div>
-
-              <div className="form-footer">
-                <button type="submit" className="btn btn-primary" style={{ width: '100%', padding: '16px' }} disabled={sending}>
-                  {sending ? 'Sending Brief...' : 'Send Project Brief \u2192'}
-                </button>
-                <div className="secure-note">
-                  <span>🔒</span> Secure, encrypted. No spam, ever.
-                </div>
-              </div>
-            </form>
-          )}
+      {/* FAQ Section */}
+      <section className="kb-section">
+        <div className="kb-section-header">
+          <span className="kb-badge font-mono">FREQUENTLY ASKED</span>
+          <h2 className="kb-section-title">Common Questions</h2>
+        </div>
+        <div className="kb-faq-list">
+          {faqs.map((f) => (
+            <FAQ key={f.q} q={f.q} a={f.a} />
+          ))}
         </div>
       </section>
-
-      {/* FAQ */}
-      <section className="section contact-faq">
-        <div className="section-header">
-          <div className="section-pill">FAQ</div>
-          <h2>Common Questions</h2>
-          <p>Quick answers to things people usually ask before reaching out.</p>
-        </div>
-        <div className="faq-list">
-          {faqs.map(f => <FAQ key={f.q} q={f.q} a={f.a} />)}
-        </div>
-      </section>
-    </>
+    </div>
   );
 }
+

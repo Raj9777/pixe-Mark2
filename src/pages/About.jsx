@@ -10,134 +10,103 @@ const techStack = [
 const processSteps = [
   {
     num: '01',
-    title: 'Discovery Call',
-    desc: 'We start with a deep-dive conversation to fully understand your goals, users, constraints, and success metrics.',
-    time: '1–2 days',
+    title: 'We own the outcome',
+    desc: 'Give us the core problem, not just a static task list. We find the path, flag architecture risks early, and ship — you don\'t chase us.',
   },
   {
     num: '02',
-    title: 'Proposal & Scope',
-    desc: 'I deliver a detailed project proposal with tech stack, timeline, milestones, and transparent fixed pricing.',
-    time: '1–3 days',
+    title: 'Remote, async, worldwide',
+    desc: 'We work async-first with overlapping call windows. Decisions are documented in writing so your team is never stuck waiting for us.',
   },
   {
     num: '03',
-    title: 'Design & Prototype',
-    desc: 'High-fidelity Figma designs with clickable prototypes so you can see and feel the product before a single line of code is written.',
-    time: '1–2 days',
+    title: 'Two versions of every decision',
+    desc: 'Your engineers get the deep technical detail. Your investors get the business case. Same decision, two versions — zero translation lost.',
   },
   {
     num: '04',
-    title: 'Development Sprints',
-    desc: 'Iterative daily updates with live preview links. You see real progress every single day — no waiting in the dark.',
-    time: '2–8 days',
-  },
-  {
-    num: '05',
-    title: 'Testing & QA',
-    desc: 'Rigorous cross-browser, cross-device testing, performance audits, and accessibility checks before launch.',
-    time: '3–5 days',
-  },
-  {
-    num: '06',
-    title: 'Launch & Support',
-    desc: 'Smooth deployment to your infrastructure of choice, plus 30 days of post-launch support included in every project.',
-    time: 'Ongoing',
+    title: 'Judgment over billable hours',
+    desc: 'The right decision made once beats the wrong one made fast and unwound for months. We define rate and scope upfront on our first call — no surprises.',
   },
 ];
 
 export default function About() {
   return (
-    <>
-      {/* Page Hero */}
-      <section className="page-hero about-hero">
-        <div className="page-hero-content">
-          <div className="section-pill">About PIXE</div>
-          <h1>One builder. <br /><span className="text-gradient">Limitless ambition.</span></h1>
-          <p>PIXE is a solo digital agency that punches well above its weight. I combine the design sensibility of a creative studio with the engineering depth of a product team — minus the agency overhead, delays, and bloated invoices.</p>
-        </div>
-        <div className="about-img-wrap glass">
-          <img src="/assets/about_hero.png" alt="PIXE workspace" />
-          <div className="about-img-badge glass">
-            <span className="badge-value">3×</span>
-            <span className="badge-label">Faster than the market</span>
-          </div>
-        </div>
+    <div className="kb-about-page">
+      {/* Hero */}
+      <section className="kb-about-hero">
+        <span className="kb-badge font-mono">WHO YOU'D BE WORKING WITH</span>
+        <h1 className="kb-about-title">
+          Senior engineering. <br />
+          <span className="kb-title-accent">Zero agency overhead.</span>
+        </h1>
+        <p className="kb-about-sub">
+          We take projects that are stuck, complex, or lack a clear brief and ship them end-to-end. Custom web applications, AI integrations, mobile platforms, and performance optimizations.
+        </p>
       </section>
 
-      {/* Story */}
-      <section className="section about-story">
-        <div className="about-story-grid">
-          <div>
-            <div className="section-pill">The Story</div>
-            <h2>Why PIXE exists</h2>
-            <p>After watching businesses spend months and fortunes at agencies that delivered mediocre results, I set out to prove a simpler model works better. One person, fully accountable, deeply invested in every pixel and every line of code.</p>
-            <p>The result? Clients who expected 3-week timelines get their products in 3 days. Startups that thought premium design was out of reach discover it fits their budget. Enterprises find a partner who actually understands their business, not just their brief.</p>
-            <Link to="/contact" className="btn btn-primary" style={{ marginTop: '32px' }}>Work With Me &rarr;</Link>
-          </div>
-          <div className="story-highlights">
-            {[
-              { icon: '🎯', title: 'Mission', desc: 'Make world-class digital products accessible to every business — fast, affordable, and with zero compromise on quality.' },
-              { icon: '🔮', title: 'Vision', desc: 'A world where great software is not a privilege of the well-funded, but a baseline for every ambitious idea.' },
-              { icon: '⚡', title: 'Values', desc: 'Radical transparency. Obsessive craft. Honest timelines. Long-term relationships over one-off transactions.' },
-            ].map(v => (
-              <div key={v.title} className="story-card glass">
-                <span className="story-icon">{v.icon}</span>
-                <div>
-                  <h4>{v.title}</h4>
-                  <p>{v.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+      {/* Story & Philosophy */}
+      <section className="kb-section">
+        <div className="kb-statement-card">
+          <span className="kb-badge font-mono">DIRECT ACCOUNTABILITY</span>
+          <h2 className="kb-statement-heading">
+            Proof, not adjectives.
+          </h2>
+          <p className="kb-statement-body">
+            Most agencies assign junior developers while charging senior rates. At PIXE, you speak directly to the engineer writing your code. Every architecture choice, database schema, and UI component is documented in writing — because six months from now, that clarity is what saves your product.
+          </p>
         </div>
       </section>
 
       {/* Tech Stack */}
-      <section className="section about-tech">
-        <div className="section-header">
-          <div className="section-pill">Tech Stack</div>
-          <h2>Tools of the trade</h2>
-          <p>Modern, battle-tested technologies chosen for performance, scalability, and developer experience.</p>
+      <section className="kb-section kb-section-alt">
+        <div className="kb-section-header">
+          <span className="kb-badge font-mono">TECHNOLOGY STACK</span>
+          <h2 className="kb-section-title">Tools We Build With</h2>
+          <p className="kb-section-sub">Modern, battle-tested frameworks chosen for speed, scalability, and long-term maintainability.</p>
         </div>
-        <div className="tech-pills">
-          {techStack.map(t => (
-            <span key={t} className="tech-pill glass">{t}</span>
+        <div className="kb-tags-row">
+          {techStack.map((t) => (
+            <span key={t} className="kb-tech-tag font-mono" style={{ fontSize: '0.88rem', padding: '6px 14px' }}>
+              {t}
+            </span>
           ))}
         </div>
       </section>
 
       {/* Process */}
-      <section className="section about-process">
-        <div className="section-header">
-          <div className="section-pill">Process</div>
-          <h2>How PIXE works</h2>
-          <p>A clear, collaborative process that keeps you informed and in control from day one to launch.</p>
+      <section className="kb-section">
+        <div className="kb-section-header">
+          <span className="kb-badge font-mono">HOW WE WORK</span>
+          <h2 className="kb-section-title">Our Operating Model</h2>
+          <p className="kb-section-sub">Built around speed, transparency, and async momentum.</p>
         </div>
-        <div className="process-grid">
-          {processSteps.map(s => (
-            <div key={s.num} className="process-step glass">
-              <div className="process-step-header">
-                <span className="process-num text-gradient">{s.num}</span>
-                <span className="process-time">{s.time}</span>
-              </div>
-              <h3>{s.title}</h3>
-              <p>{s.desc}</p>
+        <div className="kb-process-grid">
+          {processSteps.map((s) => (
+            <div key={s.num} className="kb-card kb-process-card">
+              <span className="kb-step-num">{s.num}</span>
+              <h3 className="kb-process-title">{s.title}</h3>
+              <p className="kb-process-body">{s.desc}</p>
             </div>
           ))}
         </div>
       </section>
 
       {/* CTA */}
-      <section className="section" style={{ textAlign: 'center' }}>
-        <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.8rem, 3vw, 2.5rem)', marginBottom: '16px' }}>
-          Sounds like a fit?
-        </h2>
-        <p style={{ color: 'var(--text-muted)', marginBottom: '36px', maxWidth: '480px', margin: '0 auto 36px' }}>
-          I'm selective about projects I take on — not because I'm exclusive, but because I give every client 100%.
-        </p>
-        <Link to="/contact" className="btn btn-primary">Let's Talk &rarr;</Link>
+      <section className="kb-section">
+        <div className="kb-final-cta-card">
+          <span className="kb-badge font-mono">READY TO TALK?</span>
+          <h2 className="kb-final-title">Let's discuss your product requirements.</h2>
+          <p className="kb-final-sub">
+            Book a 30-minute call. No pitch deck — just your problem and whether we are the right fit.
+          </p>
+          <Link to="/contact" className="kb-btn-primary">
+            <span>Book a 30-min call</span>
+            <span>→</span>
+          </Link>
+        </div>
       </section>
-    </>
+    </div>
   );
 }
+

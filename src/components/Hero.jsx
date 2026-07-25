@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import './Hero.css';
 
 export default function Hero() {
-  const [price, setPrice] = useState({ currency: '$', amount: '300', flag: '🌐', loading: true });
-  const [scrollY, setScrollY] = useState(0);
+  const [price, setPrice] = useState({ currency: '$', amount: '100', flag: '🌐', loading: true });
 
   useEffect(() => {
     const detectLocation = async () => {
@@ -11,7 +11,6 @@ export default function Hero() {
         const res = await fetch('https://ipapi.co/json/');
         if (!res.ok) throw new Error();
         const data = await res.json();
-        // Convert country code to flag emoji (each letter → regional indicator symbol)
         const toFlag = (code) =>
           code
             .toUpperCase()
@@ -29,65 +28,77 @@ export default function Hero() {
       }
     };
     detectLocation();
-
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
-    <section id="hero" className="hero">
-      <div 
-        className="hero-content"
-        style={{
-          opacity: Math.max(0, 1 - scrollY / 550),
-          transform: `translateY(${scrollY * 0.25}px)`,
-          transition: 'none'
-        }}
-      >
-        <div className="hero-badge glass hero-anim" style={{ animationDelay: '0.1s' }}>Solo Agency · PIXE</div>
+    <section id="hero" className="kb-hero">
+      <div className="kb-hero-container">
+        {/* Availability Badge */}
+        <div className="kb-hero-badge-wrap">
+          <div className="kb-badge">
+            <span className="kb-status-dot" />
+            <span>AVAILABLE FOR NEW PROJECTS · Q3 2026</span>
+          </div>
+        </div>
 
-        <h1 className="hero-anim" style={{ animationDelay: '0.25s' }}>
-          Built faster. <br />
-          <span className="text-gradient">Priced fairly.</span>
+        {/* Editorial Heading */}
+        <h1 className="kb-hero-title">
+          Bespoke Software & <br />
+          <span className="kb-title-accent">Web Architecture.</span>
         </h1>
 
-        <p className="hero-sub hero-anim" style={{ animationDelay: '0.4s' }}>
-          PIXE crafts custom software and high-performance websites with delivery
-          that's 3× faster than the market — without the agency price tag.
+        {/* Subtitle statement */}
+        <p className="kb-hero-sub">
+          You have an idea, an AI prototype, or a web application that needs to launch.
+          We find what's blocking it and ship the production-ready solution — <strong>3× faster</strong> than traditional agencies, with zero retainer fluff.
         </p>
 
-
-        <div className="pricing-pill glass hero-anim" style={{ animationDelay: '0.55s' }}>
-          <span className="pricing-pill-label">Starting from</span>
-          <div className="pricing-pill-divider" />
-          <div className="pricing-pill-value">
-            <span className="pricing-currency">
-              {price.loading ? '…' : price.currency}
-            </span>
-            <span className="pricing-amount">
-              {price.loading ? '—' : price.amount}
-            </span>
-          </div>
-          <span className="pricing-note">
-            {price.loading ? '🌐' : price.flag}
-          </span>
-        </div>
-
-        <div className="hero-actions hero-anim" style={{ animationDelay: '0.7s' }}>
-          <a href="#portfolio" className="btn btn-secondary">View My Work</a>
-          <a href="#contact" className="btn btn-primary">
-            Let's craft the future &rarr;
+        {/* Pricing & CTA Row */}
+        <div className="kb-hero-cta-group">
+          <Link to="/contact" className="kb-btn-primary">
+            <span>Book a 30-min call</span>
+            <span>→</span>
+          </Link>
+          
+          <a href="#work" className="kb-btn-secondary">
+            <span>See the work</span>
+            <span>↓</span>
           </a>
-        </div>
-      </div>
 
-      <div className="scroll-indicator">
-        <div className="scroll-line" />
-        <span>Scroll</span>
+          {/* Pricing indicator */}
+          <div className="kb-hero-pricing">
+            <span className="pricing-label font-mono">FROM</span>
+            <span className="pricing-val font-mono">
+              {price.loading ? '…' : `${price.currency}${price.amount}`}
+            </span>
+            <span className="pricing-flag">{price.flag}</span>
+          </div>
+        </div>
+
+        {/* Proof, not adjectives strip */}
+        <div className="kb-proof-strip">
+          <div className="proof-header font-mono">PROOF, NOT ADJECTIVES</div>
+          <div className="proof-grid">
+            <div className="proof-card">
+              <div className="proof-num font-mono">50+</div>
+              <div className="proof-desc">Production web apps & sites shipped</div>
+            </div>
+            <div className="proof-card">
+              <div className="proof-num font-mono">3×</div>
+              <div className="proof-desc">Faster turnaround than agencies</div>
+            </div>
+            <div className="proof-card">
+              <div className="proof-num font-mono">99+</div>
+              <div className="proof-desc">Lighthouse performance scores</div>
+            </div>
+            <div className="proof-card">
+              <div className="proof-num font-mono">100%</div>
+              <div className="proof-desc">Fixed scope & transparent pricing</div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
 }
+

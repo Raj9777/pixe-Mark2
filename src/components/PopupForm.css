@@ -1,36 +1,28 @@
-/* ═══════════════════════════════════════
-   FLOATING TRIGGER BUTTON
-═══════════════════════════════════════ */
 .popup-trigger {
   position: fixed;
-  bottom: 88px;
+  bottom: 84px;
   right: 32px;
   z-index: 900;
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 14px 22px;
-  border-radius: 100px;
-  background: linear-gradient(135deg, #00f0ff, #0055ff);
-  color: #000;
-  font-family: 'Inter', sans-serif;
-  font-size: 0.92rem;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: 9999px;
+  background: #0d0f14;
+  border: 1px solid rgba(0, 240, 255, 0.3);
+  color: var(--accent-cyan);
+  font-size: 0.78rem;
   font-weight: 700;
-  border: none;
   cursor: pointer;
-  box-shadow: 0 8px 32px rgba(0, 240, 255, 0.35);
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 0.25s ease,
-              opacity 0.3s ease;
-  position: fixed; /* re-affirm */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  transition: all 0.25s ease;
 }
 
 .popup-trigger:hover {
-  transform: translateY(-3px) scale(1.03);
-  box-shadow: 0 12px 40px rgba(0, 240, 255, 0.5);
+  background: #161922;
+  border-color: var(--accent-cyan);
+  transform: translateY(-2px);
 }
-
-.popup-trigger:active { transform: scale(0.97); }
 
 .popup-trigger.hidden {
   opacity: 0;
