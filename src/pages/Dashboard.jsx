@@ -5,6 +5,9 @@ import {
   verifyPasscode,
   logoutAdmin,
   getMetrics,
+  syncRemoteAnalytics,
+  logSubmission,
+  logBooking,
   updateBookingStatus,
   updatePasscode,
   clearAllMetrics,
@@ -25,15 +28,24 @@ export default function Dashboard() {
   const [selectedSub, setSelectedSub] = useState(null);
   const [bookingFilter, setBookingFilter] = useState('All');
   const [subFilter, setSubFilter] = useState('All');
+  const [isSyncing, setIsSyncing] = useState(false);
 
   // Settings State
   const [newPasscode, setNewPasscode] = useState('');
   const [passcodeMsg, setPasscodeMsg] = useState({ text: '', isError: false });
 
-  // Load metrics when authenticated
-  const refreshMetrics = () => {
+  // Load and sync metrics when authenticated
+  const refreshMetrics = async () => {
     if (authed) {
-      setMetrics(getMetrics());
+      setIsSyncing(true);
+      try {
+        await syncRemoteAnalytics();
+      } catch (err) {
+        console.warn('Dashboard sync error:', err);
+      } finally {
+        setMetrics(getMetrics());
+        setIsSyncing(false);
+      }
     }
   };
 
@@ -49,8 +61,8 @@ export default function Dashboard() {
       };
       window.addEventListener('storage', handleStorage);
 
-      // Polling timer to update dashboard dynamically
-      const timer = setInterval(refreshMetrics, 3000);
+      // Polling timer to update dashboard dynamically with remote cloud data
+      const timer = setInterval(refreshMetrics, 4000);
 
       return () => {
         window.removeEventListener('storage', handleStorage);
@@ -58,6 +70,35 @@ export default function Dashboard() {
       };
     }
   }, [authed]);
+
+  // Handle Create Live Test Submission & Booking
+  const handleCreateTestSubmission = () => {
+    const randomId = Math.floor(Math.random() * 899) + 100;
+    const sampleSub = {
+      type: 'Contact',
+      name: `Test Client ${randomId}`,
+      email: `client${randomId}@example.com`,
+      phone: '+91 7381763856',
+      interest: 'Full-Stack Web App',
+      budget: '$5,000 - $10,000',
+      message: 'This is a test submission generated from the dashboard to verify live synchronization.'
+    };
+
+    const sampleBooking = {
+      name: `Test Booking Client ${randomId}`,
+      email: `booking${randomId}@example.com`,
+      phone: '+91 7381763856',
+      service: '30-Min Strategy Call',
+      date: new Date().toISOString().split('T')[0],
+      time: '2:00 PM',
+      notes: 'Test call booking created via Admin Dashboard.'
+    };
+
+    logSubmission(sampleSub);
+    logBooking(sampleBooking);
+    refreshMetrics();
+  };
+
 
   // Handle Login
   const handleLogin = (e) => {
@@ -172,12 +213,12 @@ export default function Dashboard() {
         </div>
 
         <div className="dashboard-top-actions">
-          <button className="btn-dash" onClick={handleSeedDemoMetrics} title="Load sample demo data">
-            🌱 Demo Data
+          <button className="btn-dash" onClick={handleCreateTestSubmission} title="Create sample test submission to verify live dashboard sync">
+            🧪 + Test Inquiry & Call
           </button>
 
-          <button className="btn-dash" onClick={refreshMetrics} title="Refresh data">
-            🔄 Refresh
+          <button className="btn-dash" onClick={refreshMetrics} disabled={isSyncing} title="Sync live remote submissions & calls">
+            {isSyncing ? '⌛ Syncing...' : '🔄 Sync Live Data'}
           </button>
 
           <NavLink to="/" className="btn-dash">
@@ -189,6 +230,7 @@ export default function Dashboard() {
           </button>
         </div>
       </header>
+
 
       {/* Navigation Tabs */}
       <nav className="dashboard-tabs">

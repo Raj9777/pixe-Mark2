@@ -301,6 +301,76 @@ export function recordImpression(type, label) {
   }
 }
 
+import { fetchRemoteData, pushToCloudStore } from './dbService';
+
+/**
+ * Sync remote cloud submissions & bookings into local analytics storage
+ */
+export async function syncRemoteAnalytics() {
+  try {
+    const remote = await fetchRemoteData();
+    if (!remote) return getStorageData();
+
+    const local = getStorageData();
+    let updated = false;
+
+    // Merge submissions
+    if (remote.submissions && remote.submissions.length > 0) {
+      remote.submissions.forEach(rSub => {
+        const exists = local.submissions.some(
+          l => l.id === rSub.id || (l.email === rSub.email && l.timestamp === rSub.timestamp)
+        );
+        if (!exists) {
+          local.submissions.unshift({
+            id: rSub.id || `sub_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
+            timestamp: rSub.timestamp || new Date().toISOString(),
+            type: rSub.type || 'Contact',
+            name: rSub.name || 'Anonymous',
+            email: rSub.email || 'N/A',
+            phone: rSub.phone || '',
+            interest: rSub.interest || rSub.service || 'General',
+            budget: rSub.budget || 'N/A',
+            message: rSub.message || ''
+          });
+          updated = true;
+        }
+      });
+    }
+
+    // Merge bookings
+    if (remote.bookings && remote.bookings.length > 0) {
+      remote.bookings.forEach(rBook => {
+        const exists = local.bookings.some(
+          l => l.id === rBook.id || (l.email === rBook.email && l.date === rBook.date && l.time === rBook.time)
+        );
+        if (!exists) {
+          local.bookings.unshift({
+            id: rBook.id || `book_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
+            timestamp: rBook.timestamp || new Date().toISOString(),
+            name: rBook.name || 'Anonymous',
+            email: rBook.email || 'N/A',
+            phone: rBook.phone || '',
+            service: rBook.service || rBook.interest || 'Consultation Call',
+            date: rBook.date || new Date().toISOString().split('T')[0],
+            time: rBook.time || '10:00 AM',
+            status: rBook.status || 'Pending',
+            notes: rBook.notes || ''
+          });
+          updated = true;
+        }
+      });
+    }
+
+    if (updated) {
+      saveStorageData(local);
+    }
+    return local;
+  } catch (err) {
+    console.warn('Analytics Service — Cloud sync warning:', err);
+    return getStorageData();
+  }
+}
+
 /**
  * Log a form submission (Contact or Quote)
  */
@@ -314,6 +384,10 @@ export function logSubmission(submissionData) {
     };
     data.submissions.unshift(entry);
     saveStorageData(data);
+
+    // Push to Cloud Persistence Store asynchronously
+    pushToCloudStore('submission', entry).catch(console.error);
+
     return entry;
   } catch (err) {
     console.error('Failed to log submission:', err);
@@ -335,6 +409,10 @@ export function logBooking(bookingData) {
     };
     data.bookings.unshift(entry);
     saveStorageData(data);
+
+    // Push to Cloud Persistence Store asynchronously
+    pushToCloudStore('booking', entry).catch(console.error);
+
     return entry;
   } catch (err) {
     console.error('Failed to log booking:', err);
@@ -351,8 +429,24 @@ export function updateBookingStatus(id, status, notes) {
     if (status) data.bookings[index].status = status;
     if (notes !== undefined) data.bookings[index].notes = notes;
     saveStorageData(data);
+
+    // Push status update to cloud store
+    fetchRemoteData().then(remote => {
+      if (!remote) return;
+      const bIdx = remote.bookings.findIndex(b => b.id === id);
+      if (bIdx !== -1) {
+        if (status) remote.bookings[bIdx].status = status;
+        if (notes !== undefined) remote.bookings[bIdx].notes = notes;
+        fetch(import.meta.env.VITE_CLOUD_SYNC_URL || 'https://jsonblob.com/api/jsonBlob/019f9805-0729-7d68-8bb9-23e80786221c', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(remote)
+        }).catch(console.error);
+      }
+    }).catch(console.error);
   }
 }
+
 
 /* ═══════════════════════════════════════════
    REPORT GENERATION & METRICS
