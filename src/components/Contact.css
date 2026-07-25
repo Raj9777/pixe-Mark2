@@ -19,18 +19,20 @@
 .contact-info h2 {
   font-family: var(--font-display);
   font-size: clamp(2.2rem, 4.5vw, 3.5rem);
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: -0.02em;
   line-height: 1.1;
   margin-bottom: 24px;
+  color: #000000;
 }
 
 .contact-info .contact-sub {
-  color: var(--text-muted);
+  color: #374151;
   font-size: 1.05rem;
   line-height: 1.8;
   max-width: 400px;
   margin-bottom: 48px;
+  font-weight: 500;
 }
 
 .contact-details {
@@ -49,9 +51,10 @@
 .contact-detail-icon {
   width: 44px;
   height: 44px;
-  border-radius: 12px;
-  background: rgba(0,240,255,0.06);
-  border: 1px solid rgba(0,240,255,0.12);
+  border-radius: 0px;
+  background: #ffffff;
+  border: 2px solid #000000;
+  box-shadow: 2px 2px 0px #000000;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -62,13 +65,15 @@
 .contact-detail-info strong {
   display: block;
   font-size: 0.95rem;
-  font-weight: 600;
+  font-weight: 800;
+  color: #000000;
   margin-bottom: 2px;
 }
 
 .contact-detail-info span {
   font-size: 0.85rem;
-  color: var(--text-muted);
+  color: #374151;
+  font-weight: 600;
 }
 
 /* Form */
@@ -98,10 +103,10 @@
 
 .form-group label {
   font-size: 0.78rem;
-  font-weight: 600;
+  font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--text-muted);
+  color: #000000;
 }
 
 .input-wrap {
@@ -119,14 +124,16 @@
 
 .form-control {
   width: 100%;
-  background: rgba(0, 0, 0, 0.25);
-  border: 1px solid var(--glass-border);
-  border-radius: 10px;
+  background: #ffffff;
+  border: 2px solid #000000;
+  border-radius: 0px;
   padding: 14px 14px 14px 42px;
-  color: var(--text-main);
+  color: #000000;
   font-family: var(--font-sans);
   font-size: 0.95rem;
-  transition: border-color 0.3s, background 0.3s, box-shadow 0.3s;
+  font-weight: 600;
+  box-shadow: 3px 3px 0px #000000;
+  transition: all 0.15s ease;
   outline: none;
 }
 
@@ -135,12 +142,11 @@
 }
 
 .form-control:focus {
-  border-color: var(--accent-cyan);
-  background: rgba(0, 0, 0, 0.4);
-  box-shadow: 0 0 0 3px rgba(0,240,255,0.08);
+  border-color: #00B5D8;
+  box-shadow: 4px 4px 0px #000000;
 }
 
-.form-control::placeholder { color: rgba(138,155,176,0.5); }
+.form-control::placeholder { color: #6b7280; }
 
 textarea.form-control {
   resize: vertical;
@@ -163,23 +169,27 @@ textarea.form-control {
 
 .pill-label {
   padding: 8px 18px;
-  border-radius: 100px;
-  border: 1px solid var(--glass-border);
-  background: rgba(255,255,255,0.03);
+  border-radius: 0px;
+  border: 2px solid #000000;
+  background: #ffffff;
+  color: #000000;
   font-size: 0.88rem;
+  font-weight: 700;
   cursor: pointer;
-  transition: all 0.2s;
+  box-shadow: 2px 2px 0px #000000;
+  transition: all 0.15s ease;
   user-select: none;
 }
 
 .pill-option input:checked + .pill-label {
-  background: rgba(0,240,255,0.1);
-  border-color: var(--accent-cyan);
-  color: var(--accent-cyan);
+  background: #00B5D8;
+  color: #000000;
+  box-shadow: 3px 3px 0px #000000;
 }
 
 .pill-label:hover {
-  border-color: rgba(255,255,255,0.2);
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0px #000000;
 }
 
 /* Form footer */
@@ -196,7 +206,8 @@ textarea.form-control {
   justify-content: center;
   gap: 6px;
   font-size: 0.78rem;
-  color: rgba(138,155,176,0.6);
+  color: #555555;
+  font-weight: 700;
 }
 
 .form-stack {
@@ -204,3 +215,4 @@ textarea.form-control {
   flex-direction: column;
   gap: 20px;
 }
+

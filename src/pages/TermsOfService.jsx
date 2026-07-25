@@ -11,10 +11,11 @@ export default function TermsOfService() {
       <div className="legal-hero">
         <div className="section-pill">Legal</div>
         <h1>Terms of <span className="text-gradient">Service</span></h1>
-        <p style={{ color: 'rgba(138,155,176,0.85)', fontSize: '1rem', lineHeight: 1.7, maxWidth: '560px' }}>
+        <p style={{ color: '#374151', fontSize: '1rem', lineHeight: 1.7, maxWidth: '560px', fontWeight: 500 }}>
           These Terms of Service govern your use of the PIXE website and the engagement of PIXE's
           services. Please read them carefully before proceeding.
         </p>
+
         <div className="legal-meta">
           <div className="legal-meta-item">📅 <strong>Last Updated:</strong> {LAST_UPDATED}</div>
           <div className="legal-meta-item">✅ <strong>Effective:</strong> {EFFECTIVE}</div>

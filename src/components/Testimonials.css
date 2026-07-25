@@ -61,25 +61,31 @@
   display: flex;
   flex-direction: column;
   gap: 24px;
-  transition: border-color 0.3s;
+  background: #ffffff;
+  border: 2px solid #000000;
+  border-radius: 0px;
+  box-shadow: 4px 4px 0px #000000;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
   cursor: default;
 }
 
 .tcard:hover {
-  border-color: rgba(0, 240, 255, 0.25);
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px #000000;
 }
 
 .tcard-stars {
   display: flex;
   gap: 4px;
-  color: var(--accent-cyan);
-  font-size: 1rem;
+  color: #00B5D8;
+  font-size: 1.1rem;
 }
 
 .tcard-quote {
   font-size: 1rem;
-  line-height: 1.75;
-  color: rgba(240, 244, 248, 0.85);
+  line-height: 1.7;
+  color: #1e293b;
+  font-weight: 600;
   flex: 1;
 }
 
@@ -94,7 +100,7 @@
   height: 52px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid rgba(0, 240, 255, 0.4);
+  border: 2px solid #000000;
   flex-shrink: 0;
 }
 
@@ -102,25 +108,29 @@
   width: 52px;
   height: 52px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+  background: #00B5D8;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 700;
+  font-weight: 800;
   font-size: 1.1rem;
-  color: #000;
+  color: #000000;
   flex-shrink: 0;
-  border: 2px solid rgba(0,240,255,0.3);
+  border: 2px solid #000000;
+  box-shadow: 2px 2px 0px #000000;
 }
 
 .tcard-info h4 {
   font-family: var(--font-display);
-  font-size: 1rem;
-  font-weight: 700;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #000000;
   margin-bottom: 2px;
 }
 
 .tcard-info span {
-  font-size: 0.82rem;
-  color: var(--text-muted);
+  font-size: 0.84rem;
+  color: #555555;
+  font-weight: 700;
 }
+

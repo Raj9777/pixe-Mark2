@@ -11,10 +11,11 @@ export default function PrivacyPolicy() {
       <div className="legal-hero">
         <div className="section-pill">Legal</div>
         <h1>Privacy <span className="text-gradient">Policy</span></h1>
-        <p style={{ color: 'rgba(138,155,176,0.85)', fontSize: '1rem', lineHeight: 1.7, maxWidth: '560px' }}>
+        <p style={{ color: '#374151', fontSize: '1rem', lineHeight: 1.7, maxWidth: '560px', fontWeight: 500 }}>
           At PIXE, we take your privacy seriously. This policy explains clearly what data we collect,
           why we collect it, and exactly how it is used — in plain language.
         </p>
+
         <div className="legal-meta">
           <div className="legal-meta-item">📅 <strong>Last Updated:</strong> {LAST_UPDATED}</div>
           <div className="legal-meta-item">✅ <strong>Effective:</strong> {EFFECTIVE}</div>
