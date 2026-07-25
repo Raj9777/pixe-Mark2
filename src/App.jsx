@@ -17,10 +17,8 @@ import CookiePolicy from './pages/CookiePolicy';
 import Dashboard from './pages/Dashboard';
 import { recordVisit } from './services/analyticsService';
 
-/* ── Theme Context ─────────────────────────── */
 export const ThemeContext = createContext({
   theme: 'dark',
-  toggleTheme: () => {},
 });
 
 export function useTheme() {
@@ -28,28 +26,13 @@ export function useTheme() {
 }
 
 function ThemeProvider({ children }) {
-  const [theme, setTheme] = useState(() => {
-    try {
-      return localStorage.getItem('pixe-theme') || 'dark';
-    } catch {
-      return 'dark';
-    }
-  });
-
   useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-    document.body.style.backgroundColor = theme === 'light' ? '#f7f7f5' : '#05070a';
-    try {
-      localStorage.setItem('pixe-theme', theme);
-    } catch {
-      // localStorage unavailable
-    }
-  }, [theme]);
-
-  const toggleTheme = () => setTheme(t => (t === 'dark' ? 'light' : 'dark'));
+    document.documentElement.setAttribute('data-theme', 'dark');
+    document.body.style.backgroundColor = '#08090d';
+  }, []);
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+    <ThemeContext.Provider value={{ theme: 'dark' }}>
       {children}
     </ThemeContext.Provider>
   );

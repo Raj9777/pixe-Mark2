@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
-import { useTheme } from '../App';
 import {
   isAuthenticated,
   verifyPasscode,
@@ -15,8 +14,6 @@ import {
 import './Dashboard.css';
 
 export default function Dashboard() {
-  const { theme, toggleTheme } = useTheme();
-
   // Auth state
   const [authed, setAuthed] = useState(() => isAuthenticated());
   const [inputCode, setInputCode] = useState('');
@@ -181,10 +178,6 @@ export default function Dashboard() {
 
           <button className="btn-dash" onClick={refreshMetrics} title="Refresh data">
             🔄 Refresh
-          </button>
-
-          <button className="btn-dash" onClick={toggleTheme}>
-            {theme === 'dark' ? '☀️ Light' : '🌙 Dark'}
           </button>
 
           <NavLink to="/" className="btn-dash">

@@ -1,12 +1,10 @@
 import { NavLink } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { useTheme } from '../App';
 import './Navbar.css';
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -53,17 +51,8 @@ export default function Navbar() {
           ))}
         </ul>
 
-        {/* Right controls: Theme toggle & CTA */}
+        {/* Right controls: CTA */}
         <div className="navbar-right">
-          <button
-            className="theme-toggle"
-            onClick={toggleTheme}
-            aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-            title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-          >
-            {theme === 'dark' ? '☀️' : '🌙'}
-          </button>
-
           <NavLink to="/contact" className="kb-btn-primary navbar-cta">
             <span>Book a call</span>
             <span className="cta-arrow">→</span>
@@ -98,9 +87,6 @@ export default function Navbar() {
             </NavLink>
           ))}
           <div className="mobile-actions">
-            <button className="theme-toggle-mobile" onClick={toggleTheme}>
-              {theme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode'}
-            </button>
             <NavLink
               to="/contact"
               className="kb-btn-primary mobile-cta"
