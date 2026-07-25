@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { sendContactEmail } from '../services/emailService';
 import { saveContactSub } from '../services/dbService';
 import { logSubmission } from '../services/analyticsService';
+import useScrollReveal from '../hooks/useScrollReveal';
 import '../components/Contact.css';
 import './ContactPage.css';
 
@@ -43,7 +44,9 @@ function FAQ({ q, a }) {
 }
 
 export default function ContactPage() {
+  useScrollReveal();
   const [interest, setInterest] = useState('Website Architecture');
+
   const [budget, setBudget] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [isINR, setIsINR] = useState(true);

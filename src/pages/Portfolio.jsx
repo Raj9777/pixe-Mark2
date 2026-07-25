@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import useScrollReveal from '../hooks/useScrollReveal';
 import './Portfolio.css';
 
 const projects = [
@@ -63,8 +64,10 @@ const categories = ['All', 'Web App', 'SaaS', 'UI/UX Design', 'FinTech', 'Mobile
 
 export default function Portfolio() {
   const [active, setActive] = useState('All');
+  useScrollReveal(active);
 
   const filtered = active === 'All' ? projects : projects.filter((p) => p.category === active);
+
 
   return (
     <div className="kb-portfolio-page">

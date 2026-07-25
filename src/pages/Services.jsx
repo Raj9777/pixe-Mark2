@@ -1,8 +1,11 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import TechTicker from '../components/TechTicker';
+import useScrollReveal from '../hooks/useScrollReveal';
 import './Services.css';
 
 const services = [
+
   {
     num: '01',
     title: 'Web Design & Architecture',
@@ -62,6 +65,7 @@ const services = [
 
 export default function Services() {
   const [isINR, setIsINR] = useState(true);
+  useScrollReveal();
 
   return (
     <div className="kb-services-page">
@@ -90,8 +94,12 @@ export default function Services() {
         </div>
       </section>
 
+      {/* Tech Stack Marquee */}
+      <TechTicker />
+
       {/* Services List */}
       <section className="kb-section">
+
         <div className="kb-services-grid">
           {services.map((s) => (
             <div key={s.num} className="kb-card kb-service-card">

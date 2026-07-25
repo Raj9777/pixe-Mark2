@@ -1,11 +1,7 @@
 import { Link } from 'react-router-dom';
+import TechTicker from '../components/TechTicker';
+import useScrollReveal from '../hooks/useScrollReveal';
 import './About.css';
-
-const techStack = [
-  'React', 'Next.js', 'Node.js', 'Python', 'TypeScript',
-  'PostgreSQL', 'MongoDB', 'Firebase', 'AWS', 'Docker',
-  'Figma', 'React Native', 'Express', 'GraphQL', 'Tailwind CSS',
-];
 
 const processSteps = [
   {
@@ -31,6 +27,8 @@ const processSteps = [
 ];
 
 export default function About() {
+  useScrollReveal();
+
   return (
     <div className="kb-about-page">
       {/* Hero */}
@@ -45,6 +43,9 @@ export default function About() {
         </p>
       </section>
 
+      {/* Tech Stack Marquee */}
+      <TechTicker />
+
       {/* Story & Philosophy */}
       <section className="kb-section">
         <div className="kb-statement-card">
@@ -58,21 +59,6 @@ export default function About() {
         </div>
       </section>
 
-      {/* Tech Stack */}
-      <section className="kb-section kb-section-alt">
-        <div className="kb-section-header">
-          <span className="kb-badge font-mono">TECHNOLOGY STACK</span>
-          <h2 className="kb-section-title">Tools We Build With</h2>
-          <p className="kb-section-sub">Modern, battle-tested frameworks chosen for speed, scalability, and long-term maintainability.</p>
-        </div>
-        <div className="kb-tags-row">
-          {techStack.map((t) => (
-            <span key={t} className="kb-tech-tag font-mono" style={{ fontSize: '0.88rem', padding: '6px 14px' }}>
-              {t}
-            </span>
-          ))}
-        </div>
-      </section>
 
       {/* Process */}
       <section className="kb-section">

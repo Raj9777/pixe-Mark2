@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 import Hero from '../components/Hero';
 import Testimonials from '../components/Testimonials';
+import TechTicker from '../components/TechTicker';
+import useScrollReveal from '../hooks/useScrollReveal';
 import './Home.css';
 
 /* ── Typical Engagements ─────────────────────── */
@@ -91,13 +93,19 @@ const PROCESS_STEPS = [
 ];
 
 export default function Home() {
+  useScrollReveal();
+
   return (
     <div className="kb-home">
       {/* 1. Hero */}
       <Hero />
 
-      {/* 2. Typical Engagements */}
+      {/* 2. Technologies We Use Ticker */}
+      <TechTicker />
+
+      {/* 3. Typical Engagements */}
       <section className="kb-section" id="services">
+
         <div className="kb-section-header">
           <span className="kb-badge font-mono">SERVICES & SCOPE</span>
           <h2 className="kb-section-title">Typical Engagements</h2>
