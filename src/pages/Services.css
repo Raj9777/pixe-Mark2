@@ -12,19 +12,20 @@
 .kb-services-title {
   font-family: var(--font-display);
   font-size: clamp(2.6rem, 5.5vw, 4.2rem);
-  font-weight: 700;
+  font-weight: 800;
   line-height: 1.08;
   letter-spacing: -0.02em;
-  color: var(--text-main);
+  color: #000000;
   margin: 20px 0 20px;
 }
 
 .kb-services-sub {
   font-size: 1.15rem;
-  color: var(--text-muted);
+  color: #374151;
   max-width: 680px;
   line-height: 1.7;
   margin-bottom: 40px;
+  font-weight: 500;
 }
 
 .kb-currency-strip {
@@ -32,13 +33,14 @@
   align-items: center;
   gap: 16px;
   padding-top: 24px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 2px solid #000000;
 }
 
 .currency-note {
   font-size: 0.75rem;
   letter-spacing: 0.08em;
-  color: var(--text-subtle);
+  color: #000000;
+  font-weight: 700;
 }
 
 /* Services Grid */
@@ -62,46 +64,52 @@
 
 .kb-service-timeline {
   font-size: 0.78rem;
-  color: var(--accent-cyan);
-  background: rgba(0, 240, 255, 0.06);
-  border: 1px solid rgba(0, 240, 255, 0.15);
+  color: #000000;
+  background: #00B5D8;
+  border: 1.5px solid #000000;
   padding: 4px 12px;
-  border-radius: 9999px;
+  border-radius: 0px;
+  font-weight: 800;
+  box-shadow: 2px 2px 0px #000000;
 }
 
 .kb-service-heading {
   font-size: 1.6rem;
-  font-weight: 700;
-  color: var(--text-main);
+  font-weight: 800;
+  color: #000000;
   margin-bottom: 4px;
 }
 
 .kb-service-tagline {
   font-size: 0.85rem;
-  color: var(--text-subtle);
+  color: #6b7280;
+  font-weight: 700;
   margin-bottom: 16px;
 }
 
 .kb-service-desc {
   font-size: 0.98rem;
-  color: var(--text-muted);
+  color: #374151;
   line-height: 1.65;
   margin-bottom: 28px;
   max-width: 860px;
+  font-weight: 500;
 }
 
 .kb-service-features {
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 8px;
+  background: #ffffff;
+  border: 2px solid #000000;
+  border-radius: 0px;
   padding: 24px;
   margin-bottom: 28px;
+  box-shadow: 3px 3px 0px #000000;
 }
 
 .kb-service-features h4 {
   font-size: 0.72rem;
   letter-spacing: 0.1em;
-  color: var(--text-subtle);
+  color: #000000;
+  font-weight: 800;
   margin-bottom: 14px;
 }
 
@@ -114,7 +122,8 @@
 
 .kb-service-features li {
   font-size: 0.88rem;
-  color: var(--text-muted);
+  color: #374151;
+  font-weight: 600;
 }
 
 .kb-service-bottom {
@@ -122,7 +131,7 @@
   align-items: center;
   justify-content: space-between;
   padding-top: 20px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 2px solid #000000;
 }
 
 .kb-price-block {
@@ -133,13 +142,14 @@
 .price-lbl {
   font-size: 0.68rem;
   letter-spacing: 0.1em;
-  color: var(--text-subtle);
+  color: #6b7280;
+  font-weight: 700;
 }
 
 .price-val {
   font-size: 1.6rem;
   font-weight: 800;
-  color: var(--text-main);
+  color: #000000;
 }
 
 @media (max-width: 768px) {
@@ -152,4 +162,5 @@
     gap: 16px;
   }
 }
+
 

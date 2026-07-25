@@ -1,6 +1,6 @@
 .kb-footer {
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  background: #06070a;
+  border-top: 2px solid #000000;
+  background: #ffffff;
   padding: 80px 5% 40px;
   position: relative;
   z-index: 1;
@@ -27,10 +27,11 @@
 
 .kb-footer-desc {
   font-size: 0.9rem;
-  color: var(--text-muted);
+  color: #374151;
   line-height: 1.6;
   max-width: 380px;
   margin-bottom: 24px;
+  font-weight: 500;
 }
 
 .kb-footer-col {
@@ -42,33 +43,35 @@
 .kb-footer-col h4 {
   font-size: 0.72rem;
   letter-spacing: 0.1em;
-  color: var(--text-subtle);
+  color: #000000;
+  font-weight: 800;
   margin-bottom: 4px;
 }
 
 .kb-footer-col a {
   font-size: 0.88rem;
-  color: var(--text-muted);
+  color: #374151;
+  font-weight: 600;
   transition: color 0.2s ease;
-
 }
 
 .kb-footer-col a:hover {
-  color: var(--text-main);
+  color: #00B5D8;
 }
 
 .kb-footer-email {
   font-family: var(--font-mono);
-  color: var(--accent-cyan) !important;
+  color: #00B5D8 !important;
+  font-weight: 700 !important;
 }
 
 .kb-owner-link {
   font-size: 0.78rem !important;
-  color: var(--text-subtle) !important;
+  color: #6b7280 !important;
 }
 
 .kb-footer-bottom {
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 2px solid #000000;
   padding-top: 28px;
   display: flex;
   align-items: center;
@@ -79,24 +82,26 @@
 
 .kb-footer-copyright {
   font-size: 0.82rem;
-  color: var(--text-subtle);
+  color: #6b7280;
+  font-weight: 600;
 }
 
 .kb-back-top {
-  background: none;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: var(--text-muted);
+  background: #ffffff;
+  border: 2px solid #000000;
+  color: #000000;
   padding: 6px 14px;
-  border-radius: 6px;
+  font-family: var(--font-mono);
   font-size: 0.78rem;
+  font-weight: 700;
   cursor: pointer;
-  transition: all 0.2s ease;
+  box-shadow: 3px 3px 0px #000000;
+  transition: all 0.15s ease;
 }
 
 .kb-back-top:hover {
-  border-color: rgba(255, 255, 255, 0.25);
-  color: var(--text-main);
-  background: rgba(255, 255, 255, 0.05);
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0px #000000;
 }
 
 @media (max-width: 900px) {
@@ -110,4 +115,5 @@
     grid-template-columns: 1fr;
   }
 }
+
 

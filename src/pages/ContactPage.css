@@ -12,18 +12,19 @@
 .kb-contact-title {
   font-family: var(--font-display);
   font-size: clamp(2.6rem, 5.5vw, 4.2rem);
-  font-weight: 700;
+  font-weight: 800;
   line-height: 1.08;
   letter-spacing: -0.02em;
-  color: var(--text-main);
+  color: #000000;
   margin: 20px 0 20px;
 }
 
 .kb-contact-sub {
   font-size: 1.15rem;
-  color: var(--text-muted);
+  color: #374151;
   max-width: 680px;
   line-height: 1.7;
+  font-weight: 500;
 }
 
 .kb-contact-grid {
@@ -35,7 +36,8 @@
 .kb-info-heading {
   font-size: 0.72rem;
   letter-spacing: 0.1em;
-  color: var(--text-subtle);
+  color: #000000;
+  font-weight: 800;
   margin-bottom: 24px;
 }
 
@@ -44,7 +46,6 @@
   flex-direction: column;
   gap: 4px;
   margin-bottom: 24px;
-
 }
 
 .kb-info-item:last-child {
@@ -54,13 +55,14 @@
 .info-lbl {
   font-size: 0.68rem;
   letter-spacing: 0.08em;
-  color: var(--text-subtle);
+  color: #6b7280;
+  font-weight: 700;
 }
 
 .info-val {
   font-size: 0.95rem;
-  font-weight: 600;
-  color: var(--text-main);
+  font-weight: 700;
+  color: #000000;
 }
 
 /* Form inputs & pills */
@@ -85,26 +87,30 @@
 .kb-form-group label {
   font-size: 0.72rem;
   letter-spacing: 0.08em;
-  color: var(--text-subtle);
+  color: #000000;
+  font-weight: 800;
 }
 
 .kb-input,
 .kb-textarea {
   width: 100%;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
+  background: #ffffff;
+  border: 2px solid #000000;
+  border-radius: 0px;
   padding: 12px 16px;
-  color: #ffffff;
+  color: #000000;
   font-family: var(--font-sans);
   font-size: 0.95rem;
+  font-weight: 600;
   outline: none;
-  transition: border-color 0.2s ease;
+  box-shadow: 3px 3px 0px #000000;
+  transition: all 0.15s ease;
 }
 
 .kb-input:focus,
 .kb-textarea:focus {
-  border-color: var(--accent-cyan);
+  border-color: #00B5D8;
+  box-shadow: 4px 4px 0px #000000;
 }
 
 .kb-pill-selector {
@@ -114,26 +120,27 @@
 }
 
 .kb-pill-btn {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  color: var(--text-muted);
+  background: #ffffff;
+  border: 2px solid #000000;
+  color: #000000;
   padding: 6px 14px;
-  border-radius: 6px;
+  border-radius: 0px;
   font-size: 0.76rem;
+  font-weight: 700;
   cursor: pointer;
-  transition: all 0.2s ease;
+  box-shadow: 2px 2px 0px #000000;
+  transition: all 0.15s ease;
 }
 
 .kb-pill-btn:hover {
-  border-color: rgba(255, 255, 255, 0.2);
-  color: var(--text-main);
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0px #000000;
 }
 
 .kb-pill-btn.active {
-  background: #ffffff;
-  color: #08090d;
-  border-color: #ffffff;
-  font-weight: 700;
+  background: #00B5D8;
+  color: #000000;
+  box-shadow: 3px 3px 0px #000000;
 }
 
 .kb-budget-header {
@@ -151,7 +158,6 @@
 
 .kb-faq-item {
   cursor: pointer;
-
 }
 
 .kb-faq-q {
@@ -159,23 +165,25 @@
   align-items: center;
   justify-content: space-between;
   font-size: 1.05rem;
-  font-weight: 600;
-  color: var(--text-main);
+  font-weight: 800;
+  color: #000000;
 }
 
 .kb-faq-chevron {
   font-family: var(--font-mono);
   font-size: 1.2rem;
-  color: var(--accent-cyan);
+  color: #00B5D8;
+  font-weight: 800;
 }
 
 .kb-faq-a {
   margin-top: 16px;
   padding-top: 16px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  color: var(--text-muted);
+  border-top: 2px solid #000000;
+  color: #374151;
   font-size: 0.95rem;
   line-height: 1.65;
+  font-weight: 500;
 }
 
 @media (max-width: 900px) {
@@ -186,4 +194,5 @@
     grid-template-columns: 1fr;
   }
 }
+
 

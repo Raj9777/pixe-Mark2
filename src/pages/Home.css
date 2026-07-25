@@ -10,9 +10,9 @@
 }
 
 .kb-section-alt {
-  background: var(--bg-surface);
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  background: #ffffff;
+  border-top: 2px solid #000000;
+  border-bottom: 2px solid #000000;
   max-width: 100%;
   padding-left: max(5%, calc((100vw - 1240px) / 2));
   padding-right: max(5%, calc((100vw - 1240px) / 2));
@@ -26,16 +26,17 @@
 .kb-section-title {
   font-family: var(--font-display);
   font-size: clamp(2rem, 4vw, 3rem);
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: -0.02em;
-  color: var(--text-main);
+  color: #000000;
   margin: 16px 0 12px;
 }
 
 .kb-section-sub {
   font-size: 1.05rem;
-  color: var(--text-muted);
+  color: #374151;
   line-height: 1.6;
+  font-weight: 500;
 }
 
 /* Engagements Grid */
@@ -60,15 +61,16 @@
 
 .kb-card-title {
   font-size: 1.3rem;
-  font-weight: 700;
-  color: var(--text-main);
+  font-weight: 800;
+  color: #000000;
 }
 
 .kb-card-desc {
   font-size: 0.95rem;
-  color: var(--text-muted);
+  color: #374151;
   line-height: 1.6;
   margin-bottom: 20px;
+  font-weight: 500;
 }
 
 .kb-tags-row {
@@ -85,12 +87,13 @@
   gap: 8px;
   margin-bottom: 28px;
   font-size: 0.88rem;
-  color: var(--text-muted);
+  color: #374151;
+  font-weight: 600;
 }
 
 .kb-check {
-  color: var(--status-green);
-  font-weight: 700;
+  color: #00a86b;
+  font-weight: 800;
 }
 
 .kb-card-action {
@@ -119,30 +122,32 @@
 
 .kb-case-cat {
   font-size: 0.72rem;
-  color: var(--text-subtle);
+  color: #6b7280;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  font-weight: 700;
 }
 
 .kb-case-metric {
   font-size: 0.8rem;
-  color: var(--accent-cyan);
-  font-weight: 600;
+  color: #00B5D8;
+  font-weight: 800;
 }
 
 .kb-case-title {
   font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--text-main);
+  font-weight: 800;
+  color: #000000;
   margin-bottom: 12px;
   line-height: 1.35;
 }
 
 .kb-case-desc {
   font-size: 0.9rem;
-  color: var(--text-muted);
+  color: #374151;
   line-height: 1.6;
   margin-bottom: 20px;
+  font-weight: 500;
 }
 
 .kb-link-arrow {
@@ -150,15 +155,15 @@
   align-items: center;
   gap: 6px;
   font-size: 0.82rem;
-  color: var(--text-main);
-  font-weight: 600;
+  color: #000000;
+  font-weight: 700;
   margin-top: auto;
   transition: gap 0.2s ease;
 }
 
 .kb-link-arrow:hover {
   gap: 10px;
-  color: var(--accent-cyan);
+  color: #00B5D8;
 }
 
 .kb-center-btn {
@@ -168,27 +173,29 @@
 
 /* Philosophy statement card */
 .kb-statement-card {
-  background: linear-gradient(135deg, rgba(18, 21, 31, 0.9) 0%, rgba(24, 29, 42, 0.6) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 16px;
+  background: #ffffff;
+  border: 2px solid #000000;
+  border-radius: 0px;
+  box-shadow: 4px 4px 0px #000000;
   padding: 56px 48px;
 }
 
 .kb-statement-heading {
   font-family: var(--font-display);
   font-size: clamp(2rem, 4.5vw, 3.4rem);
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: -0.02em;
-  color: var(--text-main);
+  color: #000000;
   margin: 20px 0;
   line-height: 1.15;
 }
 
 .kb-statement-body {
   font-size: clamp(1.05rem, 2vw, 1.25rem);
-  color: var(--text-muted);
+  color: #374151;
   line-height: 1.7;
   max-width: 820px;
+  font-weight: 500;
 }
 
 /* Process Grid */
@@ -205,22 +212,24 @@
 
 .kb-process-title {
   font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--text-main);
+  font-weight: 800;
+  color: #000000;
   margin: 12px 0 10px;
 }
 
 .kb-process-body {
   font-size: 0.88rem;
-  color: var(--text-muted);
+  color: #374151;
   line-height: 1.6;
+  font-weight: 500;
 }
 
 /* Final CTA Card */
 .kb-final-cta-card {
-  background: var(--bg-surface);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 16px;
+  background: #ffffff;
+  border: 2px solid #000000;
+  border-radius: 0px;
+  box-shadow: 5px 5px 0px #000000;
   padding: 64px 48px;
   text-align: center;
   display: flex;
@@ -231,19 +240,20 @@
 .kb-final-title {
   font-family: var(--font-display);
   font-size: clamp(2.2rem, 5vw, 3.8rem);
-  font-weight: 700;
+  font-weight: 800;
   line-height: 1.1;
-  color: var(--text-main);
+  color: #000000;
   margin: 20px 0 16px;
   letter-spacing: -0.02em;
 }
 
 .kb-final-sub {
   font-size: 1.1rem;
-  color: var(--text-muted);
+  color: #374151;
   max-width: 580px;
   line-height: 1.6;
   margin-bottom: 36px;
+  font-weight: 500;
 }
 
 .kb-final-actions {
@@ -275,4 +285,5 @@
     padding: 32px 24px;
   }
 }
+
 

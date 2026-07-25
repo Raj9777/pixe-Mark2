@@ -20,29 +20,29 @@
 .kb-hero-title {
   font-family: var(--font-display);
   font-size: clamp(2.8rem, 6.5vw, 5.2rem);
-  font-weight: 700;
+  font-weight: 800;
   line-height: 1.06;
   letter-spacing: -0.03em;
-  color: var(--text-main);
+  color: #000000;
   margin-bottom: 28px;
 }
 
 .kb-title-accent {
-  color: var(--text-muted);
-  font-weight: 400;
+  color: #555555;
+  font-weight: 500;
 }
 
 .kb-hero-sub {
   font-family: var(--font-sans);
   font-size: clamp(1.05rem, 2vw, 1.25rem);
   line-height: 1.7;
-  color: var(--text-muted);
+  color: #374151;
   max-width: 720px;
   margin-bottom: 40px;
 }
 
 .kb-hero-sub strong {
-  color: var(--text-main);
+  color: #000000;
 }
 
 .kb-hero-cta-group {
@@ -59,22 +59,24 @@
   align-items: center;
   gap: 8px;
   padding: 10px 16px;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 0px;
+  background: #ffffff;
+  border: 2px solid #000000;
+  box-shadow: 3px 3px 0px #000000;
   margin-left: auto;
 }
 
 .pricing-label {
   font-size: 0.7rem;
-  color: var(--text-subtle);
+  color: #555555;
   letter-spacing: 0.08em;
+  font-weight: 700;
 }
 
 .pricing-val {
   font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--accent-cyan);
+  font-weight: 800;
+  color: #00B5D8;
 }
 
 .pricing-flag {
@@ -85,13 +87,14 @@
 .kb-proof-strip {
   width: 100%;
   padding-top: 40px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 2px solid #000000;
 }
 
 .proof-header {
   font-size: 0.75rem;
   letter-spacing: 0.12em;
-  color: var(--text-subtle);
+  color: #000000;
+  font-weight: 800;
   margin-bottom: 24px;
 }
 
@@ -103,29 +106,31 @@
 }
 
 .proof-card {
-  background: var(--bg-card);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 10px;
+  background: #ffffff;
+  border: 2px solid #000000;
+  border-radius: 0px;
   padding: 20px;
-  transition: border-color 0.25s ease, transform 0.25s ease;
+  box-shadow: 4px 4px 0px #000000;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .proof-card:hover {
-  border-color: rgba(255, 255, 255, 0.2);
-  transform: translateY(-2px);
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px #000000;
 }
 
 .proof-num {
   font-size: 1.8rem;
   font-weight: 800;
-  color: var(--text-main);
+  color: #000000;
   margin-bottom: 6px;
 }
 
 .proof-desc {
   font-size: 0.85rem;
-  color: var(--text-muted);
+  color: #374151;
   line-height: 1.4;
+  font-weight: 600;
 }
 
 @media (max-width: 900px) {
@@ -147,5 +152,6 @@
     font-size: 2.4rem;
   }
 }
+
 
 

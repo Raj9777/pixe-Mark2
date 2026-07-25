@@ -12,18 +12,19 @@
 .kb-portfolio-title {
   font-family: var(--font-display);
   font-size: clamp(2.6rem, 5.5vw, 4.2rem);
-  font-weight: 700;
+  font-weight: 800;
   line-height: 1.08;
   letter-spacing: -0.02em;
-  color: var(--text-main);
+  color: #000000;
   margin: 20px 0 20px;
 }
 
 .kb-portfolio-sub {
   font-size: 1.15rem;
-  color: var(--text-muted);
+  color: #374151;
   max-width: 680px;
   line-height: 1.7;
+  font-weight: 500;
 }
 
 .kb-portfolio-filters-wrap {
@@ -40,26 +41,28 @@
 }
 
 .kb-filter-btn {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  color: var(--text-muted);
+  background: #ffffff;
+  border: 2px solid #000000;
+  color: #000000;
   padding: 8px 18px;
-  border-radius: 9999px;
+  border-radius: 0px;
+  font-family: var(--font-mono);
   font-size: 0.78rem;
+  font-weight: 700;
   cursor: pointer;
-  transition: all 0.2s ease;
+  box-shadow: 3px 3px 0px #000000;
+  transition: all 0.15s ease;
 }
 
 .kb-filter-btn:hover {
-  border-color: rgba(255, 255, 255, 0.2);
-  color: var(--text-main);
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0px #000000;
 }
 
 .kb-filter-btn.active {
-  background: #ffffff;
-  color: #08090d;
-  border-color: #ffffff;
-  font-weight: 700;
+  background: #00B5D8;
+  color: #000000;
+  box-shadow: 4px 4px 0px #000000;
 }
 
 /* Portfolio List */
@@ -89,30 +92,32 @@
 
 .kb-port-cat {
   font-size: 0.72rem;
-  color: var(--text-subtle);
+  color: #6b7280;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  font-weight: 700;
 }
 
 .kb-port-metric {
   font-size: 0.82rem;
-  color: var(--accent-cyan);
-  font-weight: 600;
+  color: #00B5D8;
+  font-weight: 800;
 }
 
 .kb-port-item-title {
   font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--text-main);
+  font-weight: 800;
+  color: #000000;
   margin-bottom: 10px;
 }
 
 .kb-port-item-desc {
   font-size: 0.96rem;
-  color: var(--text-muted);
+  color: #374151;
   line-height: 1.6;
   margin-bottom: 24px;
   max-width: 840px;
+  font-weight: 500;
 }
 
 .kb-port-footer {
@@ -120,19 +125,22 @@
   align-items: center;
   justify-content: space-between;
   padding-top: 18px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 2px solid #000000;
 }
 
 .kb-port-year {
   font-size: 0.75rem;
-  color: var(--text-subtle);
+  color: #6b7280;
   letter-spacing: 0.08em;
+  font-weight: 700;
 }
 
 .kb-no-results {
   text-align: center;
   padding: 60px 0;
-  color: var(--text-subtle);
+  color: #6b7280;
   font-size: 0.9rem;
+  font-weight: 600;
 }
+
 

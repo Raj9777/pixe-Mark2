@@ -18,7 +18,7 @@ import Dashboard from './pages/Dashboard';
 import { recordVisit } from './services/analyticsService';
 
 export const ThemeContext = createContext({
-  theme: 'dark',
+  theme: 'light',
 });
 
 export function useTheme() {
@@ -27,12 +27,12 @@ export function useTheme() {
 
 function ThemeProvider({ children }) {
   useEffect(() => {
-    document.documentElement.setAttribute('data-theme', 'dark');
-    document.body.style.backgroundColor = '#08090d';
+    document.documentElement.setAttribute('data-theme', 'light');
+    document.body.style.backgroundColor = '#f7f8fa';
   }, []);
 
   return (
-    <ThemeContext.Provider value={{ theme: 'dark' }}>
+    <ThemeContext.Provider value={{ theme: 'light' }}>
       {children}
     </ThemeContext.Provider>
   );
