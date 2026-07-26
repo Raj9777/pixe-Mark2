@@ -42,9 +42,9 @@ export default function Footer() {
           <div className="kb-footer-col">
             <h4 className="font-mono">CONTACT</h4>
             <a href="mailto:raj@pixelexcellence.online" className="kb-footer-email">raj@pixelexcellence.online</a>
-            <a href="https://linkedin.com" target="_blank" rel="noreferrer">LinkedIn</a>
-            <a href="https://github.com" target="_blank" rel="noreferrer">GitHub</a>
-            <a href="https://x.com" target="_blank" rel="noreferrer">X (Twitter)</a>
+            <a href="https://www.linkedin.com/in/rajratanparija" target="_blank" rel="noreferrer">LinkedIn</a>
+            <a href="https://github.com/Raj9777" target="_blank" rel="noreferrer">GitHub</a>
+            <a href="https://www.instagram.com/raj_ratan_02_01/" target="_blank" rel="noreferrer">Instagram</a>
           </div>
 
           {/* Col 4: Legal & Dashboard */}

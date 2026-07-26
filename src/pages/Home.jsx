@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import Hero from '../components/Hero';
+import ProfileSection from '../components/ProfileSection';
 import Testimonials from '../components/Testimonials';
 import TechTicker from '../components/TechTicker';
 import useScrollReveal from '../hooks/useScrollReveal';
@@ -100,7 +101,10 @@ export default function Home() {
       {/* 1. Hero */}
       <Hero />
 
-      {/* 2. Technologies We Use Ticker */}
+      {/* 2. Meet the Founder / Personal Profile Section */}
+      <ProfileSection badge="MEET THE FOUNDER & LEAD DEVELOPER" title="FOUNDER & FULL-STACK ARCHITECT" />
+
+      {/* 3. Technologies We Use Ticker */}
       <TechTicker />
 
       {/* 3. Typical Engagements */}

@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import TechTicker from '../components/TechTicker';
+import ProfileSection from '../components/ProfileSection';
 import useScrollReveal from '../hooks/useScrollReveal';
 import './About.css';
 
@@ -42,6 +43,9 @@ export default function About() {
           We take projects that are stuck, complex, or lack a clear brief and ship them end-to-end. Custom web applications, AI integrations, mobile platforms, and performance optimizations.
         </p>
       </section>
+
+      {/* Personal Founder Profile Section */}
+      <ProfileSection badge="DIRECT FOUNDER ACCESS" title="LEAD FULL-STACK ARCHITECT" />
 
       {/* Tech Stack Marquee */}
       <TechTicker />
