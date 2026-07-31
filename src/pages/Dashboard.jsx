@@ -6,6 +6,7 @@ import {
   logoutAdmin,
   getMetrics,
   syncRemoteAnalytics,
+  syncPasscodeFromRemote,
   logSubmission,
   logBooking,
   updateBookingStatus,
@@ -16,7 +17,8 @@ import {
 } from '../services/analyticsService';
 import {
   subscribeToRealtimeSubmissions,
-  subscribeToRealtimeBookings
+  subscribeToRealtimeBookings,
+  subscribeToRealtimePasscode
 } from '../services/firebase';
 import './Dashboard.css';
 
@@ -37,6 +39,16 @@ export default function Dashboard() {
   // Settings State
   const [newPasscode, setNewPasscode] = useState('');
   const [passcodeMsg, setPasscodeMsg] = useState({ text: '', isError: false });
+
+  // Listen to remote passcode changes even when on login screen
+  useEffect(() => {
+    const unsubPasscode = subscribeToRealtimePasscode((remoteCode) => {
+      if (remoteCode) {
+        syncPasscodeFromRemote(remoteCode);
+      }
+    });
+    return () => unsubPasscode();
+  }, []);
 
   // Load and sync metrics when authenticated
   const refreshMetrics = useCallback(async () => {
@@ -120,9 +132,10 @@ export default function Dashboard() {
 
 
   // Handle Login
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    if (verifyPasscode(inputCode)) {
+    const isValid = await verifyPasscode(inputCode);
+    if (isValid) {
       setAuthed(true);
       setAuthError('');
     } else {
@@ -138,11 +151,11 @@ export default function Dashboard() {
   };
 
   // Handle Passcode Change
-  const handlePasscodeSubmit = (e) => {
+  const handlePasscodeSubmit = async (e) => {
     e.preventDefault();
     try {
-      updatePasscode(newPasscode);
-      setPasscodeMsg({ text: 'Passcode updated successfully!', isError: false });
+      await updatePasscode(newPasscode);
+      setPasscodeMsg({ text: 'Passcode updated successfully across all devices!', isError: false });
       setNewPasscode('');
     } catch (err) {
       setPasscodeMsg({ text: err.message, isError: true });

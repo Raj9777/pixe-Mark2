@@ -5,6 +5,7 @@ import {
   onValue, 
   push, 
   set, 
+  get,
   update, 
   serverTimestamp 
 } from 'firebase/database';
@@ -93,6 +94,58 @@ export function subscribeToRealtimeBookings(callback) {
   });
 
   return unsubscribe;
+}
+
+/**
+ * Subscribe to admin passcode updates across all devices
+ */
+export function subscribeToRealtimePasscode(callback) {
+  if (!db) return () => {};
+  const passcodeRef = ref(db, 'settings/passcode');
+
+  const unsubscribe = onValue(passcodeRef, (snapshot) => {
+    const code = snapshot.val();
+    if (code && typeof code === 'string') {
+      callback(code);
+    }
+  }, (error) => {
+    console.warn('Firebase passcode listener notice:', error);
+  });
+
+  return unsubscribe;
+}
+
+/**
+ * Push updated admin passcode to Firebase Realtime Database
+ */
+export async function pushPasscodeToFirebase(passcode) {
+  if (!db || !passcode) return false;
+  try {
+    const passcodeRef = ref(db, 'settings/passcode');
+    await set(passcodeRef, passcode.trim());
+    return true;
+  } catch (err) {
+    console.error('Firebase error pushing passcode:', err);
+    return false;
+  }
+}
+
+/**
+ * Fetch current admin passcode from Firebase Realtime Database
+ */
+export async function fetchFirebasePasscode() {
+  if (!db) return null;
+  try {
+    const passcodeRef = ref(db, 'settings/passcode');
+    const snapshot = await get(passcodeRef);
+    if (snapshot.exists()) {
+      return snapshot.val();
+    }
+    return null;
+  } catch (err) {
+    console.warn('Firebase error fetching passcode:', err);
+    return null;
+  }
 }
 
 /**

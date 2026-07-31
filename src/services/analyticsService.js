@@ -217,17 +217,43 @@ function generateSeedData() {
   };
 }
 
+import { pushPasscodeToFirebase, fetchFirebasePasscode } from './firebase';
+
 /* ═══════════════════════════════════════════
    AUTHENTICATION HELPERS
 ═══════════════════════════════════════════ */
 
-export function verifyPasscode(passcode) {
+export function syncPasscodeFromRemote(remotePasscode) {
+  if (!remotePasscode || typeof remotePasscode !== 'string') return;
   const data = getStorageData();
-  const validCode = data.settings?.passcode || DEFAULT_PASSCODE;
-  if (passcode === validCode) {
+  if (data.settings.passcode !== remotePasscode) {
+    data.settings.passcode = remotePasscode;
+    saveStorageData(data);
+  }
+}
+
+export async function verifyPasscode(passcode) {
+  const data = getStorageData();
+  const localCode = data.settings?.passcode || DEFAULT_PASSCODE;
+  
+  if (passcode === localCode) {
     sessionStorage.setItem(SESSION_KEY, 'true');
     return true;
   }
+
+  // If local check fails, verify against Firebase remote passcode
+  try {
+    const remoteCode = await fetchFirebasePasscode();
+    if (remoteCode && passcode === remoteCode) {
+      data.settings.passcode = remoteCode;
+      saveStorageData(data);
+      sessionStorage.setItem(SESSION_KEY, 'true');
+      return true;
+    }
+  } catch (err) {
+    console.warn('Firebase passcode verification fallback notice:', err);
+  }
+
   return false;
 }
 
@@ -239,13 +265,18 @@ export function logoutAdmin() {
   sessionStorage.removeItem(SESSION_KEY);
 }
 
-export function updatePasscode(newCode) {
+export async function updatePasscode(newCode) {
   if (!newCode || newCode.trim().length < 4) {
     throw new Error('Passcode must be at least 4 characters');
   }
+  const cleanCode = newCode.trim();
   const data = getStorageData();
-  data.settings.passcode = newCode.trim();
+  data.settings.passcode = cleanCode;
   saveStorageData(data);
+
+  // Push to Firebase Realtime Database for instant sync across all devices
+  await pushPasscodeToFirebase(cleanCode);
+
   return true;
 }
 
