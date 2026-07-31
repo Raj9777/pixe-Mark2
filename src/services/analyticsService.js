@@ -218,51 +218,96 @@ function generateSeedData() {
 }
 
 import { pushPasscodeToFirebase, fetchFirebasePasscode } from './firebase';
+import { fetchRemoteData, pushPasscodeToCloudStore } from './dbService';
 
 /* ═══════════════════════════════════════════
    AUTHENTICATION HELPERS
 ═══════════════════════════════════════════ */
 
+export function getPasscode() {
+  try {
+    const saved = localStorage.getItem(AUTH_KEY);
+    if (saved && saved.trim()) return saved.trim();
+    const data = getStorageData();
+    if (data.settings?.passcode) return data.settings.passcode.trim();
+  } catch {
+    // fallback
+  }
+  return DEFAULT_PASSCODE;
+}
+
 export function syncPasscodeFromRemote(remotePasscode) {
   if (!remotePasscode || typeof remotePasscode !== 'string') return;
-  const data = getStorageData();
-  if (data.settings.passcode !== remotePasscode) {
-    data.settings.passcode = remotePasscode;
+  const clean = remotePasscode.trim();
+  if (clean && getPasscode() !== clean) {
+    localStorage.setItem(AUTH_KEY, clean);
+    const data = getStorageData();
+    data.settings.passcode = clean;
     saveStorageData(data);
   }
 }
 
 export async function verifyPasscode(passcode) {
-  const data = getStorageData();
-  const localCode = data.settings?.passcode || DEFAULT_PASSCODE;
-  
-  if (passcode === localCode) {
+  if (!passcode) return false;
+  const inputClean = String(passcode).trim();
+  const currentPasscode = getPasscode();
+
+  // 1. Direct local match
+  if (inputClean === currentPasscode) {
     sessionStorage.setItem(SESSION_KEY, 'true');
+    localStorage.setItem(SESSION_KEY, 'true');
     return true;
   }
 
-  // If local check fails, verify against Firebase remote passcode
+  // 2. Default initial passcode fallback match
+  if (inputClean === DEFAULT_PASSCODE && currentPasscode === DEFAULT_PASSCODE) {
+    sessionStorage.setItem(SESSION_KEY, 'true');
+    localStorage.setItem(SESSION_KEY, 'true');
+    return true;
+  }
+
+  // 3. Remote Firebase fallback check
   try {
-    const remoteCode = await fetchFirebasePasscode();
-    if (remoteCode && passcode === remoteCode) {
-      data.settings.passcode = remoteCode;
+    const remoteFirebase = await fetchFirebasePasscode();
+    if (remoteFirebase && inputClean === String(remoteFirebase).trim()) {
+      localStorage.setItem(AUTH_KEY, inputClean);
+      const data = getStorageData();
+      data.settings.passcode = inputClean;
       saveStorageData(data);
       sessionStorage.setItem(SESSION_KEY, 'true');
+      localStorage.setItem(SESSION_KEY, 'true');
       return true;
     }
   } catch (err) {
-    console.warn('Firebase passcode verification fallback notice:', err);
+    console.warn('Firebase passcode verify fallback notice:', err);
+  }
+
+  // 4. Remote Cloud Store fallback check
+  try {
+    const remoteCloud = await fetchRemoteData();
+    if (remoteCloud?.passcode && inputClean === String(remoteCloud.passcode).trim()) {
+      localStorage.setItem(AUTH_KEY, inputClean);
+      const data = getStorageData();
+      data.settings.passcode = inputClean;
+      saveStorageData(data);
+      sessionStorage.setItem(SESSION_KEY, 'true');
+      localStorage.setItem(SESSION_KEY, 'true');
+      return true;
+    }
+  } catch (err) {
+    console.warn('Cloud Store passcode verify fallback notice:', err);
   }
 
   return false;
 }
 
 export function isAuthenticated() {
-  return sessionStorage.getItem(SESSION_KEY) === 'true';
+  return sessionStorage.getItem(SESSION_KEY) === 'true' || localStorage.getItem(SESSION_KEY) === 'true';
 }
 
 export function logoutAdmin() {
   sessionStorage.removeItem(SESSION_KEY);
+  localStorage.removeItem(SESSION_KEY);
 }
 
 export async function updatePasscode(newCode) {
@@ -270,12 +315,26 @@ export async function updatePasscode(newCode) {
     throw new Error('Passcode must be at least 4 characters');
   }
   const cleanCode = newCode.trim();
+
+  // Save locally across keys
+  localStorage.setItem(AUTH_KEY, cleanCode);
   const data = getStorageData();
   data.settings.passcode = cleanCode;
   saveStorageData(data);
 
-  // Push to Firebase Realtime Database for instant sync across all devices
-  await pushPasscodeToFirebase(cleanCode);
+  // Set session active
+  sessionStorage.setItem(SESSION_KEY, 'true');
+  localStorage.setItem(SESSION_KEY, 'true');
+
+  // Push to remote stores (Firebase & Cloud)
+  try {
+    await Promise.allSettled([
+      pushPasscodeToFirebase(cleanCode),
+      pushPasscodeToCloudStore(cleanCode)
+    ]);
+  } catch (err) {
+    console.warn('Passcode remote sync notice:', err);
+  }
 
   return true;
 }
@@ -331,8 +390,6 @@ export function recordImpression(type, label) {
     console.error('Failed to record impression:', err);
   }
 }
-
-import { fetchRemoteData, pushToCloudStore } from './dbService';
 
 /**
  * Sync remote cloud submissions & bookings into local analytics storage
@@ -635,15 +692,19 @@ export function exportToCSV(filename, rows) {
 }
 
 export function clearAllMetrics() {
-  const current = getStorageData();
-  const empty = getEmptyData(current.settings?.passcode || DEFAULT_PASSCODE);
+  const currentPasscode = getPasscode();
+  const empty = getEmptyData(currentPasscode);
   saveStorageData(empty);
+  localStorage.setItem(AUTH_KEY, currentPasscode);
   return empty;
 }
 
 export function seedDemoMetrics() {
+  const currentPasscode = getPasscode();
   const seed = generateSeedData();
+  seed.settings.passcode = currentPasscode;
   saveStorageData(seed);
+  localStorage.setItem(AUTH_KEY, currentPasscode);
   return seed;
 }
 

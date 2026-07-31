@@ -27,6 +27,8 @@ export default function Dashboard() {
   const [authed, setAuthed] = useState(() => isAuthenticated());
   const [inputCode, setInputCode] = useState('');
   const [authError, setAuthError] = useState('');
+  const [showPass, setShowPass] = useState(false);
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
 
   // Dashboard Data State
   const [activeTab, setActiveTab] = useState('overview');
@@ -134,12 +136,24 @@ export default function Dashboard() {
   // Handle Login
   const handleLogin = async (e) => {
     e.preventDefault();
-    const isValid = await verifyPasscode(inputCode);
-    if (isValid) {
-      setAuthed(true);
-      setAuthError('');
-    } else {
-      setAuthError('Invalid passcode. Please try again.');
+    if (!inputCode || !inputCode.trim()) {
+      setAuthError('Please enter a passcode.');
+      return;
+    }
+    setIsLoggingIn(true);
+    setAuthError('');
+    try {
+      const isValid = await verifyPasscode(inputCode);
+      if (isValid) {
+        setAuthed(true);
+        setAuthError('');
+      } else {
+        setAuthError('Invalid passcode. Please check your code and try again.');
+      }
+    } catch {
+      setAuthError('Authentication error. Please try again.');
+    } finally {
+      setIsLoggingIn(false);
     }
   };
 
@@ -195,18 +209,37 @@ export default function Dashboard() {
             <p>Enter your secret owner passcode to access analytics & reports.</p>
 
             <form onSubmit={handleLogin} className="auth-form">
-              <div className="auth-input-wrap">
+              <div className="auth-input-wrap" style={{ position: 'relative' }}>
                 <input
-                  type="password"
-                  placeholder="••••••••"
+                  type={showPass ? "text" : "password"}
+                  placeholder="Enter passcode"
                   value={inputCode}
                   onChange={(e) => setInputCode(e.target.value)}
                   autoFocus
+                  style={{ paddingRight: '44px' }}
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPass(!showPass)}
+                  title={showPass ? "Hide Passcode" : "Show Passcode"}
+                  style={{
+                    position: 'absolute',
+                    right: '12px',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    fontSize: '1.1rem',
+                    opacity: 0.7
+                  }}
+                >
+                  {showPass ? '🙈' : '👁️'}
+                </button>
               </div>
               {authError && <div className="auth-error">{authError}</div>}
-              <button type="submit" className="btn btn-primary" style={{ width: '100%' }}>
-                Unlock Dashboard
+              <button type="submit" className="btn btn-primary" style={{ width: '100%' }} disabled={isLoggingIn}>
+                {isLoggingIn ? 'Verifying…' : 'Unlock Dashboard'}
               </button>
             </form>
 

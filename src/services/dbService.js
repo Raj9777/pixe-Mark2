@@ -46,15 +46,36 @@ export async function fetchRemoteData() {
       method: 'GET',
       headers: { 'Accept': 'application/json' }
     });
-    if (!res.ok) return { submissions: [], bookings: [] };
+    if (!res.ok) return { submissions: [], bookings: [], passcode: null };
     const data = await res.json();
     return {
       submissions: Array.isArray(data.submissions) ? data.submissions : [],
-      bookings: Array.isArray(data.bookings) ? data.bookings : []
+      bookings: Array.isArray(data.bookings) ? data.bookings : [],
+      passcode: typeof data.passcode === 'string' ? data.passcode : null
     };
   } catch (err) {
     console.warn('Cloud Sync — Error reading remote dashboard data:', err);
-    return { submissions: [], bookings: [] };
+    return { submissions: [], bookings: [], passcode: null };
+  }
+}
+
+/**
+ * Push updated admin passcode to Cloud Store for multi-device fallback
+ */
+export async function pushPasscodeToCloudStore(passcode) {
+  if (!passcode) return false;
+  try {
+    const current = await fetchRemoteData();
+    current.passcode = passcode.trim();
+    await fetch(CLOUD_SYNC_URL, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(current)
+    });
+    return true;
+  } catch (err) {
+    console.warn('Cloud Sync — Error pushing passcode to cloud:', err);
+    return false;
   }
 }
 
