@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import './Legal.css';
 
 const LAST_UPDATED = 'July 6, 2025';

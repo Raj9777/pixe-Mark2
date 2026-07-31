@@ -3,38 +3,38 @@ import './Services.css';
 const services = [
   {
     icon: '💻',
-    title: 'Custom Software',
-    desc: 'End-to-end bespoke applications tailored precisely to your business logic and operational needs.',
+    title: 'Custom Software Development',
+    desc: 'End-to-end bespoke web and cloud applications tailored precisely for businesses in USA, Canada, and India.',
     tag: 'Full Stack',
   },
   {
     icon: '🌐',
-    title: 'High-Fidelity Websites',
-    desc: 'Stunning, interactive web experiences optimised for conversion and built with modern tech stacks.',
+    title: 'Website Development Agency',
+    desc: 'Stunning, interactive React & Vite web applications optimized for conversion, SEO ranking, and rapid speed.',
     tag: 'Web Design',
   },
   {
     icon: '⚡',
-    title: 'Fast Delivery',
-    desc: 'Agile development cycles meaning you go to market significantly faster than traditional agencies.',
+    title: 'Fast Agile Delivery',
+    desc: 'Rapid development sprints delivering production software 3× faster than traditional agencies.',
     tag: 'Agile',
   },
   {
     icon: '📱',
-    title: 'Mobile Apps',
-    desc: 'Cross-platform mobile applications that feel native on every device for seamless user experiences.',
+    title: 'Mobile App Development',
+    desc: 'Cross-platform mobile applications for iOS & Android with native responsiveness and crisp UI/UX.',
     tag: 'React Native',
   },
   {
     icon: '🔌',
-    title: 'API Integrations',
-    desc: 'Robust backend services and third-party API integrations that power your digital products.',
+    title: 'API & Backend Integration',
+    desc: 'Robust REST/GraphQL microservices, cloud databases, and third-party APIs that power scalable products.',
     tag: 'Backend',
   },
   {
     icon: '🎨',
-    title: 'UI/UX Design',
-    desc: 'Premium interface design grounded in user psychology with prototype-to-production delivery.',
+    title: 'UI/UX Design Studio',
+    desc: 'Premium design systems and user-centered interfaces grounded in conversion strategy.',
     tag: 'Design Systems',
   },
 ];
@@ -43,8 +43,8 @@ export default function Services() {
   return (
     <section id="services" className="section">
       <div className="section-header">
-        <h2>Capabilities</h2>
-        <p>Everything you need to ship a world-class digital product.</p>
+        <h2>Custom Software & Website Development Services</h2>
+        <p>Everything your business needs to ship world-class software across India, USA, and Canada.</p>
       </div>
       <div className="services-grid">
         {services.map((s) => (

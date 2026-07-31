@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { NavLink } from 'react-router-dom';
 import {
   isAuthenticated,
@@ -14,6 +14,10 @@ import {
   seedDemoMetrics,
   exportToCSV
 } from '../services/analyticsService';
+import {
+  subscribeToRealtimeSubmissions,
+  subscribeToRealtimeBookings
+} from '../services/firebase';
 import './Dashboard.css';
 
 export default function Dashboard() {
@@ -35,7 +39,7 @@ export default function Dashboard() {
   const [passcodeMsg, setPasscodeMsg] = useState({ text: '', isError: false });
 
   // Load and sync metrics when authenticated
-  const refreshMetrics = async () => {
+  const refreshMetrics = useCallback(async () => {
     if (authed) {
       setIsSyncing(true);
       try {
@@ -47,11 +51,24 @@ export default function Dashboard() {
         setIsSyncing(false);
       }
     }
-  };
+  }, [authed]);
 
   useEffect(() => {
     if (authed) {
       refreshMetrics();
+
+      // Subscribe to Firebase Realtime Database for instant multi-device sync
+      const unsubSubmissions = subscribeToRealtimeSubmissions((fbSubs) => {
+        if (fbSubs && fbSubs.length > 0) {
+          syncRemoteAnalytics().then(() => setMetrics(getMetrics()));
+        }
+      });
+
+      const unsubBookings = subscribeToRealtimeBookings((fbBooks) => {
+        if (fbBooks && fbBooks.length > 0) {
+          syncRemoteAnalytics().then(() => setMetrics(getMetrics()));
+        }
+      });
 
       // Refresh metrics when forms are submitted in other browser windows/tabs
       const handleStorage = (e) => {
@@ -61,15 +78,17 @@ export default function Dashboard() {
       };
       window.addEventListener('storage', handleStorage);
 
-      // Polling timer to update dashboard dynamically with remote cloud data
+      // Polling timer fallback to update dashboard dynamically
       const timer = setInterval(refreshMetrics, 4000);
 
       return () => {
+        unsubSubmissions();
+        unsubBookings();
         window.removeEventListener('storage', handleStorage);
         clearInterval(timer);
       };
     }
-  }, [authed]);
+  }, [authed, refreshMetrics]);
 
   // Handle Create Live Test Submission & Booking
   const handleCreateTestSubmission = () => {

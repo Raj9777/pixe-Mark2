@@ -73,7 +73,7 @@ export default function Hero() {
           <div className="hero-left-content">
             {/* Editorial Animated Heading */}
             <h1 className="kb-hero-title">
-              Bespoke Software & <br />
+              Custom Software & <br />
               <span className={`kb-title-accent word-flip ${fade ? 'fade-in' : 'fade-out'}`}>
                 {ROTATING_WORDS[wordIndex]}
               </span>
@@ -81,8 +81,8 @@ export default function Hero() {
 
             {/* Subtitle statement */}
             <p className="kb-hero-sub">
-              You have an idea, an AI prototype, or a web application that needs to launch.
-              We find what's blocking it and ship the production-ready solution — <strong>3× faster</strong> than traditional agencies, with zero retainer fluff.
+              Pixel Excellence is a custom software development company & website development agency serving India, USA, and Canada.
+              We build high-performance React web applications and mobile software — <strong>3× faster</strong> than traditional agencies, with zero retainer fluff.
             </p>
 
             {/* Pricing & CTA Row */}

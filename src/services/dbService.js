@@ -1,3 +1,5 @@
+import { pushSubmissionToFirebase, pushBookingToFirebase } from './firebase';
+
 const webhookUrl = import.meta.env.VITE_GOOGLE_SHEETS_WEBHOOK_URL || '';
 const CLOUD_SYNC_URL = import.meta.env.VITE_CLOUD_SYNC_URL || 'https://jsonblob.com/api/jsonBlob/019f9805-0729-7d68-8bb9-23e80786221c';
 
@@ -57,13 +59,20 @@ export async function fetchRemoteData() {
 }
 
 /**
- * Push submission or booking entry to Cloud Store so it's instantly accessible across all devices
+ * Push submission or booking entry to Cloud Store & Firebase so it's instantly accessible across all devices
  */
 export async function pushToCloudStore(type, entry) {
   try {
-    const current = await fetchRemoteData();
     const isBooking = type === 'booking' || entry.date || entry.time || entry.type === 'Booking';
 
+    // Push to Firebase Realtime Database for instant multi-device sync
+    if (isBooking) {
+      pushBookingToFirebase(entry).catch(console.error);
+    } else {
+      pushSubmissionToFirebase(entry).catch(console.error);
+    }
+
+    const current = await fetchRemoteData();
     if (isBooking) {
       // Avoid duplicate booking entries
       const exists = current.bookings.some(b => b.id === entry.id || (b.email === entry.email && b.date === entry.date && b.time === entry.time));
@@ -91,7 +100,7 @@ export async function pushToCloudStore(type, entry) {
 }
 
 /**
- * Saves a new booking request to the Google Spreadsheet and Cloud Store.
+ * Saves a new booking request to the Google Spreadsheet and Cloud Store/Firebase.
  */
 export async function saveBookingSub(bookingData) {
   const payload = {
@@ -100,14 +109,14 @@ export async function saveBookingSub(bookingData) {
     ...bookingData
   };
 
-  // Sync to Cloud Store asynchronously
+  // Sync to Firebase & Cloud Store asynchronously
   pushToCloudStore('booking', payload).catch(console.error);
 
   return sendToSheet(payload);
 }
 
 /**
- * Saves a contact form submission to the Google Spreadsheet and Cloud Store.
+ * Saves a contact form submission to the Google Spreadsheet and Cloud Store/Firebase.
  */
 export async function saveContactSub(contactData) {
   const payload = {
@@ -116,9 +125,10 @@ export async function saveContactSub(contactData) {
     ...contactData
   };
 
-  // Sync to Cloud Store asynchronously
+  // Sync to Firebase & Cloud Store asynchronously
   pushToCloudStore('submission', payload).catch(console.error);
 
   return sendToSheet(payload);
 }
+
 

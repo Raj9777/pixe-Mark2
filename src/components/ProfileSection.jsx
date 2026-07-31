@@ -11,7 +11,7 @@ export default function ProfileSection({ title = "FOUNDER & LEAD ENGINEER", badg
             <div className="kb-profile-img-frame">
               <img
                 src="/assets/raj-profile.jpg"
-                alt="Raj - Lead Developer & Founder at PIXE"
+                alt="Raj Ratan Parija - Founder & Lead Full-Stack Engineer at Pixel Excellence Custom Software Agency India"
                 className="kb-profile-img"
                 loading="eager"
               />
